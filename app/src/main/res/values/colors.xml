@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="light_gray">#D3D3D3</color>
+    <color name="azul_bote">#904F87E7</color>
+    <color name="morado_ruleta">#8FB8659E</color>
+    <color name="azul_final">#8F71C0D7</color>
+    <color name="naranja_panel">#F0975B</color>
+</resources>

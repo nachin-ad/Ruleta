@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/fondo_2"
+    tools:context=".VocalesFragment">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="7"
+        android:rowCount="1"
+        android:gravity="center"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="120dp">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="70dp"
+            android:layout_height="60dp"
+            android:text=" " />
+
+        <Button
+            android:id="@+id/buttonA"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_margin="3dp"
+            android:backgroundTint="@color/white"
+            android:padding="0dp"
+            android:text="A"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            app:cornerRadius="5dp" />
+
+
+        <Button
+            android:id="@+id/buttonE"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:padding="0dp"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            app:cornerRadius="5dp"
+            android:text="E"
+            android:layout_margin="3dp"/>
+
+        <Button
+            android:id="@+id/buttonI"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:padding="0dp"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            app:cornerRadius="5dp"
+            android:text="I"
+            android:layout_margin="3dp"/>
+
+        <Button
+            android:id="@+id/buttonO"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:padding="0dp"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            app:cornerRadius="5dp"
+            android:text="O"
+            android:layout_margin="3dp"/>
+
+        <Button
+            android:id="@+id/buttonU"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:padding="0dp"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            app:cornerRadius="5dp"
+            android:text="U"
+            android:layout_margin="3dp"/>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="70dp"
+            android:layout_height="60dp"
+            android:text=" " />
+
+    </GridLayout>
+
+</FrameLayout>
