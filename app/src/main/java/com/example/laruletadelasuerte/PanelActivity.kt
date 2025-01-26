@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 
 class PanelActivity : AppCompatActivity() {
 
+    // Variables de estado
     lateinit var frase: String
     private lateinit var panel: GridLayout
     private lateinit var letrasVisibles: MutableList<Boolean>
@@ -26,6 +27,7 @@ class PanelActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_panel)
 
+        // Inicialización del viewModel
         viewModel = ViewModelProvider(this)[PanelViewModel::class.java]
 
         //Lista de jugadores
@@ -41,40 +43,40 @@ class PanelActivity : AppCompatActivity() {
         mostrarJugadores()
 
         panel = findViewById(R.id.letterPanel)
-
         avanzarRonda()
-
         setupPanel(panel)
-
         mostrarBotonesFragment()
     }
 
+    // Función para configurar el panel con celdas según la frase
     private fun setupPanel(panel: GridLayout) {
-        panel.removeAllViews() // Limpia el panel antes de agregar nuevas celdas
-        panel.columnCount = 14 // Configura 14 columnas
-        panel.rowCount = 4     // Configura 4 filas
+        panel.removeAllViews()
+        panel.columnCount = 14
+        panel.rowCount = 4
 
         val totalCells = 14 * 4
         var letterIndex = 0
 
+        // Recorremos cada celda y agregamos un elemento al panel
         for (i in 0 until totalCells) {
             if (letterIndex < frase.length) {
                 val isVisible = letrasVisibles[letterIndex]
                 val char = frase[letterIndex]
                 if (char == ' ') {
-                    addGrayCell(panel)
+                    addGrayCell(panel) // Celda gris para los espacios
                 } else if (isVisible) {
-                    addCell(panel, char.toString(), i) // Pasa el índice al llamar a addCell
+                    addCell(panel, char.toString(), i) // Celda visible con la letra
                 } else {
                     addCell(panel, "", i) // Celda vacía para letras no reveladas
                 }
                 letterIndex++
             } else {
-                addGrayCell(panel)
+                addGrayCell(panel) // Rellenamos las celdas restantes con gris
             }
         }
     }
 
+    // Función para agregar una celda con una letra
     private fun addCell(panel: GridLayout, text: String, index: Int) {
         val textView = TextView(this).apply {
             this.text = text
@@ -88,11 +90,12 @@ class PanelActivity : AppCompatActivity() {
                 height = 80
                 setMargins(3, 3, 3, 3)
             }
-            tag = index // Almacena el índice para facilitar la identificación
+            tag = index
         }
         panel.addView(textView)
     }
 
+    // Función para agregar una celda gris para espacios vacíos
     private fun addGrayCell(panel: GridLayout) {
         val grayView = TextView(this).apply {
             text = ""
@@ -108,6 +111,7 @@ class PanelActivity : AppCompatActivity() {
         panel.addView(grayView)
     }
 
+    // Función para revelar una letra en la frase y actualizar las celdas
     fun resaltarYRevelarLetra(letra: Char) {
         var count = 0
 
@@ -116,34 +120,33 @@ class PanelActivity : AppCompatActivity() {
             if (frase[i].equals(letra, ignoreCase = true)) {
                 count++
 
-                // Encuentra la celda correspondiente
+                // Obtenemos la celda correspondiente
                 val textView = panel.getChildAt(i) as TextView
 
-                // Cambia el fondo a naranja
                 textView.setBackgroundResource(R.drawable.rounded_background_orange)
 
-                // Retrasa la revelación de la letra con fondo blanco
                 Handler(Looper.getMainLooper()).postDelayed({
                     letrasVisibles[i] = true
                     textView.text = letra.toString()
                     textView.setBackgroundResource(R.drawable.rounded_background_white)
-                }, 1000) // Retraso de 1 segundo
+                }, 1000)
             }
         }
 
-        // Verifica si la letra es una vocal
+        // Verificamos si la letra es una vocal
         val esVocal = letra.lowercaseChar() in listOf('a', 'e', 'i', 'o', 'u')
 
-        // Después de todas las iteraciones, actualizamos el mensaje
+        // Actualizamos el mensaje
         val mensaje: String
         if (count > 0) {
             mensaje = "La letra '$letra' aparece $count ${if (count > 1) "veces" else "vez"}"
-            // Resta 50 al dinero del jugador actual si es una vocal
+            // Restamos 50 al dinero del jugador actual si es una vocal
             if (esVocal) {
                 val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual)
                 jugadorActual?.let {
                     it.dineroActual -= 50
-                    if (it.dineroActual < 0) it.dineroActual = 0 // Evitar que el dinero sea negativo
+                    if (it.dineroActual < 0) it.dineroActual =
+                        0 // Evitar que el dinero sea negativo
                     mostrarJugadores() // Actualiza la interfaz con los nuevos valores
                     viewModel.actualizarDineroJugadorActual()
                 }
@@ -158,10 +161,9 @@ class PanelActivity : AppCompatActivity() {
         }
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
 
-        // Añade la letra a las desactivadas
+        // Añadimos la letra a las desactivadas
         viewModel.letrasDesactivadas.add(letra)
 
-        // Retraso antes de cambiar de fragmento
         Handler(Looper.getMainLooper()).postDelayed({
             mostrarBotonesFragment()
         }, 1200)
@@ -207,7 +209,7 @@ class PanelActivity : AppCompatActivity() {
                 letrasVisibles[i] = true
             }
         }
-        setupPanel(panel) // Actualiza el panel para mostrar toda la frase
+        setupPanel(panel)
         avanzarRonda()
     }
 
@@ -218,14 +220,13 @@ class PanelActivity : AppCompatActivity() {
     }
 
     private fun avanzarRonda() {
-
-        // Sumar el dineroActual del jugador actual a su dineroTotal
+        // Sumamos el dineroActual del jugador actual a su dineroTotal
         val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual)
         jugadorActual?.let {
             it.dineroTotal += it.dineroActual
         }
 
-        // Reiniciar el dineroActual de todos los jugadores a 0
+        // Reiniciamos el dineroActual de todos los jugadores a 0
         viewModel.jugadores?.forEach { jugador ->
             jugador.dineroActual = 0
         }
@@ -233,17 +234,13 @@ class PanelActivity : AppCompatActivity() {
         val frasesPanel = FrasesPanel()
         viewModel.ronda++
 
-        // Obtén las frases de la ronda actual
         val frasesDeLaRonda = frasesPanel.frasesPorRonda[viewModel.ronda]
 
-        // Selecciona una frase aleatoria
         val (fraseSeleccionada, pista) = frasesDeLaRonda!!.random()
 
-        // Actualiza la frase y las letras visibles
         frase = fraseSeleccionada
         letrasVisibles = MutableList(frase.length) { frase[it] == ' ' }
 
-        // Muestra la pista en el TextView correspondiente
         val tvPista = findViewById<TextView>(R.id.tvPista)
         tvPista.text = "Pista: " + pista
 
@@ -251,7 +248,6 @@ class PanelActivity : AppCompatActivity() {
             setupPanel(panel)
         }, 1800)
 
-        // Notifica a los jugadores del cambio de ronda
         Toast.makeText(
             this,
             "¡Nueva frase para la ronda" + viewModel.ronda + "!",
@@ -270,7 +266,7 @@ class PanelActivity : AppCompatActivity() {
 
     private fun mostrarJugadores() {
 
-        // Actualiza las vistas con los datos de los jugadores
+        // Actualizamos las vistas con los datos de los jugadores
         val nombres = listOf(
             findViewById<TextView>(R.id.nombreJugador1),
             findViewById(R.id.nombreJugador2),
