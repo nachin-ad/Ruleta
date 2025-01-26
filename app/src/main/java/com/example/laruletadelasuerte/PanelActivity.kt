@@ -1,5 +1,6 @@
 package com.example.laruletadelasuerte
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.Gravity
 import android.widget.GridLayout
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,13 +20,28 @@ class PanelActivity : AppCompatActivity() {
     private lateinit var panel: GridLayout
     private lateinit var letrasVisibles: MutableList<Boolean>
     private lateinit var viewModel: PanelViewModel
+    private var jugadorActual = 0
+    private lateinit var nombreJugadorActual: TextView
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_panel)
 
-        panel = findViewById(R.id.letterPanel)
         viewModel = ViewModelProvider(this)[PanelViewModel::class.java]
+
+        viewModel.jugadores = listOf(
+            Jugador("Daniel", 0, 0, R.drawable.personaje4),
+            Jugador("María", 0, 0, R.drawable.personaje8),
+            Jugador("Luis", 0, 0, R.drawable.personaje3)
+        )
+
+        nombreJugadorActual = findViewById(R.id.nombreJugadorActual)
+        nombreJugadorActual.text = viewModel.jugadores?.get(jugadorActual)?.nombre
+        mostrarJugadores()
+
+        panel = findViewById(R.id.letterPanel)
+
 
         // Frase a revelar
         frase = "  TARTA DE      FRESAS Y       NATA CON     CHOCOLATE"
@@ -118,12 +135,16 @@ class PanelActivity : AppCompatActivity() {
         }
 
         // Después de todas las iteraciones, actualizamos el mensaje
-        val message = if (count > 0) {
-            "La letra '$letra' aparece $count vez${if (count > 1) "es" else ""}."
+        var mensaje: String
+        if (count > 0) {
+            mensaje = "La letra '$letra' aparece $count ${if (count > 1) "veces" else "vez"}"
+            calcularDinero(count)
         } else {
-            "La letra '$letra' no está en la frase."
+            mensaje = "La letra '$letra' no está en la frase"
+            actualizarJugador()
         }
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
+
 
         // Añade la letra a las desactivadas
         viewModel.letrasDesactivadas.add(letra)
@@ -134,6 +155,35 @@ class PanelActivity : AppCompatActivity() {
         }, 1200)
     }
 
+    private fun calcularDinero(count: Int) {
+        val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual) ?: return
+
+        when (viewModel.cantidadRuleta) {
+            "Pierde turno" -> {
+                actualizarJugador()
+            }
+            "Quiebra" -> {
+                jugadorActual.dineroActual = 0
+                actualizarJugador()
+            }
+            "1/2" -> {
+                if (jugadorActual.dineroActual > 0) {
+                    jugadorActual.dineroActual /= 2
+                }
+            }
+            "x2" -> {
+                jugadorActual.dineroActual *= 2
+            }
+            else -> {
+                // Se asume que `cantidadRuleta` se puede convertir a un número
+                val cantidad = viewModel.cantidadRuleta.toIntOrNull() ?: 0
+                jugadorActual.dineroActual += count * cantidad
+            }
+        }
+
+        mostrarJugadores()
+    }
+
     fun revelarFraseCompleta() {
         for (i in frase.indices) {
             if (frase[i] != ' ') {
@@ -141,11 +191,55 @@ class PanelActivity : AppCompatActivity() {
             }
         }
         setupPanel(panel) // Actualiza el panel para mostrar toda la frase
+
     }
 
     fun mostrarBotonesFragment() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.frameLayout, BotonesFragment())
             .commit()
+    }
+
+    fun actualizarJugador() {
+
+        viewModel.jugadorActual = (viewModel.jugadorActual + 1) % viewModel.jugadores!!.size
+        nombreJugadorActual.text = viewModel.jugadores?.get(viewModel.jugadorActual)?.nombre ?: "Sin nombre"
+        mostrarJugadores()
+    }
+
+    private fun mostrarJugadores() {
+
+        // Actualiza las vistas con los datos de los jugadores
+        val nombres = listOf(
+            findViewById<TextView>(R.id.nombreJugador1),
+            findViewById(R.id.nombreJugador2),
+            findViewById(R.id.nombreJugador3)
+        )
+
+        val imagenes = listOf(
+            findViewById<ImageView>(R.id.ivJugador1),
+            findViewById(R.id.ivJugador2),
+            findViewById(R.id.ivJugador3)
+        )
+
+        val dinerosActuales = listOf(
+            findViewById<TextView>(R.id.dineroActualJugador1),
+            findViewById(R.id.dineroActualJugador2),
+            findViewById(R.id.dineroActualJugador3)
+        )
+
+        val dinerosTotales = listOf(
+            findViewById<TextView>(R.id.dineroTotalJugador1),
+            findViewById(R.id.dineroTotalJugador2),
+            findViewById(R.id.dineroTotalJugador3)
+        )
+
+        viewModel.jugadores?.forEachIndexed { index, jugador ->
+            nombres[index].text = jugador.nombre
+            imagenes[index].setImageResource(jugador.imagenResId)
+            dinerosActuales[index].text = jugador.dineroActual.toString()
+            dinerosTotales[index].text = jugador.dineroTotal.toString()
+        }
+
     }
 }

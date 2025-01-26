@@ -19,13 +19,153 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="30dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nombreJugador1"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:text="Daniel"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:fontFamily="monospace"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/ivJugador1"
+                    android:layout_width="90dp"
+                    android:layout_height="100dp"
+                    app:srcCompat="@drawable/personaje4" />
+
+                <TextView
+                    android:id="@+id/dineroTotalJugador1"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:background="#FFFDF6FF"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/dineroActualJugador1"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:background="#FFFDF6FF"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nombreJugador2"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:text="Daniel"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:fontFamily="monospace"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/ivJugador2"
+                    android:layout_width="90dp"
+                    android:layout_height="100dp"
+                    app:srcCompat="@drawable/personaje10" />
+
+                <TextView
+                    android:id="@+id/dineroTotalJugador2"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:background="#FFFDF6FF"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/dineroActualJugador2"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:background="#FFFDF6FF"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nombreJugador3"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:text="Daniel"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:fontFamily="monospace"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/ivJugador3"
+                    android:layout_width="90dp"
+                    android:layout_height="100dp"
+                    app:srcCompat="@drawable/personaje9" />
+
+                <TextView
+                    android:id="@+id/dineroTotalJugador3"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:background="#FDF6FF"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/dineroActualJugador3"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:background="#FFFDF6FF"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
         <GridLayout
             android:id="@+id/letterPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="250dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginTop="50dp"
             android:background="#0E5394"
             android:columnCount="14"
             android:orientation="horizontal"
@@ -33,10 +173,19 @@
             android:rowCount="4" />
 
         <TextView
-            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
+            android:background="#81BBF4"
+            android:padding="3dp"
+            android:text="Pista"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/nombreJugadorActual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="#FFFDF6FF"
             android:text="Nombre"
             android:textAlignment="center"

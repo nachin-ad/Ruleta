@@ -15,9 +15,10 @@ import kotlin.random.Random
 import android.os.Handler
 import android.os.Looper
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 
 class RuletaFragment : Fragment() {
-    private var rondaActual = 2
+    private var rondaActual = 1
     private lateinit var ruletaSections: Array<String>
     private var isAnimating = false // Estado para controlar la animación de escalado
     private lateinit var ivRuleta: ImageView
@@ -40,10 +41,15 @@ class RuletaFragment : Fragment() {
         "*", "L", "A", "*", "S", "U", "E", "R", "T", "E", "*", "*"
     )
 
+    private lateinit var viewModel: PanelViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        viewModel = ViewModelProvider(requireActivity())[PanelViewModel::class.java]
+
         // Infla el layout del fragmento
         return inflater.inflate(R.layout.fragment_ruleta, container, false)
     }
@@ -113,9 +119,16 @@ class RuletaFragment : Fragment() {
                     val result = calcularResultado(finalDegree)
                     Toast.makeText(activity, "Resultado de la ruleta: " + result, Toast.LENGTH_LONG).show()
 
+                    viewModel.cantidadRuleta = result
+
+
                     // Retraso de 1 segundo antes de cambiar de fragmento
                     Handler(Looper.getMainLooper()).postDelayed({
-                        mostrarConsonantes()
+                        if(result.equals("Pierde turno") || result.equals("Quiebra")){
+                            cambiarFragment(BotonesFragment())
+                        } else {
+                            cambiarFragment(ConsonantesFragment())
+                        }
                     }, 1200)
                 }
 
@@ -126,10 +139,10 @@ class RuletaFragment : Fragment() {
         ivRuleta.startAnimation(rotateAnimation)
     }
 
-    private fun mostrarConsonantes() {
+    private fun cambiarFragment(nuevoFragment: Fragment) {
         // Reemplaza el fragmento actual con el nuevo
         parentFragmentManager.beginTransaction()
-            .replace(R.id.frameLayout, ConsonantesFragment())
+            .replace(R.id.frameLayout, nuevoFragment)
             .addToBackStack(null) // Opcional: para permitir navegación hacia atrás
             .commit()
     }
@@ -165,4 +178,6 @@ class RuletaFragment : Fragment() {
         scaleY?.cancel()
         isAnimating = false
     }
+
+
 }

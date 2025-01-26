@@ -5,30 +5,38 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#14436F"
     tools:context=".MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:padding="16dp"
+        tools:layout_editor_absoluteX="53dp"
+        tools:layout_editor_absoluteY="16dp">
 
 
         <Button
             android:id="@+id/boton_jugar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="490dp"
             android:layout_marginBottom="16dp"
-            android:text="Jugar" />
+            android:backgroundTint="#AFD9EA"
+            android:text="Jugar"
+            android:textColor="#000000"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/boton_opciones"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Opciones"
             android:layout_below="@id/boton_jugar"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#AFD9EA"
+            android:text="Opciones"
+            android:textColor="#000000"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/boton_reglas"
@@ -36,7 +44,17 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/boton_opciones"
             android:layout_marginTop="9dp"
-            android:text="Reglas" />
+            android:backgroundTint="#AFD9EA"
+            android:text="Reglas"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginTop="50dp"
+            app:srcCompat="@drawable/ruletafinal" />
 
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
