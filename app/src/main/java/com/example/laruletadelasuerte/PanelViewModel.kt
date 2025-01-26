@@ -7,4 +7,5 @@ class PanelViewModel : ViewModel() {
     var cantidadRuleta: String = ""
     var jugadorActual: Int = 0
     val letrasDesactivadas: MutableSet<Char> = mutableSetOf()
+    var ronda: Int = 0
 }

@@ -1,6 +1,5 @@
 package com.example.laruletadelasuerte
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -23,7 +22,6 @@ class PanelActivity : AppCompatActivity() {
     private var jugadorActual = 0
     private lateinit var nombreJugadorActual: TextView
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_panel)
@@ -42,10 +40,7 @@ class PanelActivity : AppCompatActivity() {
 
         panel = findViewById(R.id.letterPanel)
 
-
-        // Frase a revelar
-        frase = "  TARTA DE      FRESAS Y       NATA CON     CHOCOLATE"
-        letrasVisibles = MutableList(frase.length) { frase[it] == ' ' }
+        avanzarRonda()
 
         setupPanel(panel)
 
@@ -135,7 +130,7 @@ class PanelActivity : AppCompatActivity() {
         }
 
         // Después de todas las iteraciones, actualizamos el mensaje
-        var mensaje: String
+        val mensaje: String
         if (count > 0) {
             mensaje = "La letra '$letra' aparece $count ${if (count > 1) "veces" else "vez"}"
             calcularDinero(count)
@@ -145,21 +140,33 @@ class PanelActivity : AppCompatActivity() {
         }
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
 
+        // Verifica si la frase está completamente revelada
+        val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual) ?: return
+        if (frase.indices.all { letrasVisibles[it] || frase[it] == ' ' }) {
+            Toast.makeText(this, "Felicidades!! " + jugadorActual.nombre + " ha adivinado la frase", Toast.LENGTH_LONG).show()
 
-        // Añade la letra a las desactivadas
-        viewModel.letrasDesactivadas.add(letra)
+            jugadorActual.dineroTotal += jugadorActual.dineroActual
 
-        // Retraso antes de cambiar de fragmento
-        Handler(Looper.getMainLooper()).postDelayed({
-            mostrarBotonesFragment()
-        }, 1200)
+            Handler(Looper.getMainLooper()).postDelayed({
+                avanzarRonda()
+                mostrarBotonesFragment()
+            }, 1500)
+        } else{
+            // Añade la letra a las desactivadas
+            viewModel.letrasDesactivadas.add(letra)
+
+            // Retraso antes de cambiar de fragmento
+            Handler(Looper.getMainLooper()).postDelayed({
+                mostrarBotonesFragment()
+            }, 1200)
+        }
     }
 
-    private fun calcularDinero(count: Int) {
+    fun calcularDinero(count: Int) {
         val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual) ?: return
 
         when (viewModel.cantidadRuleta) {
-            "Pierde turno" -> {
+            "Pierde turno", "Vocales" -> {
                 actualizarJugador()
             }
             "Quiebra" -> {
@@ -200,7 +207,26 @@ class PanelActivity : AppCompatActivity() {
             .commit()
     }
 
-    fun actualizarJugador() {
+    private fun avanzarRonda() {
+
+        val frases = listOf(
+            "  TARTA DE      FRESAS Y       NATA CON     CHOCOLATE",
+            "HELADO DE VAINILLA Y CARAMELO",
+            "PIZZA DE QUESO Y PEPPERONI"
+        )
+
+        frase = frases[viewModel.ronda]
+        viewModel.ronda += 1
+
+        letrasVisibles = MutableList(frase.length) { frase[it] == ' ' }
+
+        setupPanel(panel)
+
+        // Notifica a los jugadores del cambio de ronda
+        Toast.makeText(this, "¡Nueva frase para la ronda" + viewModel.ronda + "!", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun actualizarJugador() {
 
         viewModel.jugadorActual = (viewModel.jugadorActual + 1) % viewModel.jugadores!!.size
         nombreJugadorActual.text = viewModel.jugadores?.get(viewModel.jugadorActual)?.nombre ?: "Sin nombre"

@@ -18,7 +18,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 
 class RuletaFragment : Fragment() {
-    private var rondaActual = 1
     private lateinit var ruletaSections: Array<String>
     private var isAnimating = false // Estado para controlar la animación de escalado
     private lateinit var ivRuleta: ImageView
@@ -76,7 +75,7 @@ class RuletaFragment : Fragment() {
         val ivRuleta = view.findViewById<ImageView>(R.id.imageView2)
         val btnSpin = view.findViewById<Button>(R.id.btnGirar)
 
-        when (rondaActual) {
+        when (viewModel.ronda) {
             1, 2, 3 -> {
                 ruletaSections = ruleta1Sections
                 ivRuleta.setImageResource(R.drawable.ruletaprincipal)
@@ -125,6 +124,7 @@ class RuletaFragment : Fragment() {
                     // Retraso de 1 segundo antes de cambiar de fragmento
                     Handler(Looper.getMainLooper()).postDelayed({
                         if(result.equals("Pierde turno") || result.equals("Quiebra")){
+                            (activity as? PanelActivity)?.calcularDinero(0)
                             cambiarFragment(BotonesFragment())
                         } else {
                             cambiarFragment(ConsonantesFragment())
