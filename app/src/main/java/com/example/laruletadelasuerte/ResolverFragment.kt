@@ -8,10 +8,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 
 class ResolverFragment : Fragment() {
     private lateinit var editTextRespuesta: EditText
     private lateinit var btnComprobar: Button
+    private lateinit var viewModel: PanelViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,6 +21,7 @@ class ResolverFragment : Fragment() {
     ): View? {
         // Infla el diseño para este fragmento
         val view = inflater.inflate(R.layout.fragment_resolver, container, false)
+        viewModel = ViewModelProvider(requireActivity())[PanelViewModel::class.java]
 
         editTextRespuesta = view.findViewById(R.id.editTextRespuesta)
         btnComprobar = view.findViewById(R.id.btnComprobar)
@@ -32,13 +35,14 @@ class ResolverFragment : Fragment() {
     }
 
     private fun comprobarRespuesta() {
+        val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual) ?: return
         val respuestaUsuario = editTextRespuesta.text.toString().replace(" ", "")
 
         // Obtener la frase correcta desde la actividad
         val fraseCorrecta = (activity as? PanelActivity)?.frase?.replace(" ", "") ?: ""
 
         if (respuestaUsuario.equals(fraseCorrecta, ignoreCase = true)) {
-            Toast.makeText(requireContext(), "¡Correcto! Has resuelto la frase.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "¡Correcto! " + jugadorActual.nombre + " ha adivinado la frase", Toast.LENGTH_SHORT).show()
 
             // Revelar la frase completa en el panel
             (activity as? PanelActivity)?.revelarFraseCompleta()
@@ -46,7 +50,7 @@ class ResolverFragment : Fragment() {
             // Opcional: Navegar a otro fragmento o reiniciar el juego
             (activity as? PanelActivity)?.mostrarBotonesFragment()
         } else {
-            Toast.makeText(requireContext(), "Respuesta incorrecta. ¡Inténtalo de nuevo!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "¡Respuesta incorrecta!", Toast.LENGTH_SHORT).show()
         }
     }
 }

@@ -34,6 +34,7 @@ class PanelActivity : AppCompatActivity() {
             Jugador("Luis", 0, 0, R.drawable.personaje3)
         )
 
+        viewModel.actualizarDineroJugadorActual()
         nombreJugadorActual = findViewById(R.id.nombreJugadorActual)
         nombreJugadorActual.text = viewModel.jugadores?.get(jugadorActual)?.nombre
         mostrarJugadores()
@@ -129,37 +130,41 @@ class PanelActivity : AppCompatActivity() {
             }
         }
 
+        // Verifica si la letra es una vocal
+        val esVocal = letra.lowercaseChar() in listOf('a', 'e', 'i', 'o', 'u')
+
         // Después de todas las iteraciones, actualizamos el mensaje
         val mensaje: String
         if (count > 0) {
             mensaje = "La letra '$letra' aparece $count ${if (count > 1) "veces" else "vez"}"
-            calcularDinero(count)
+            // Resta 50 al dinero del jugador actual si es una vocal
+            if (esVocal) {
+                val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual)
+                jugadorActual?.let {
+                    it.dineroActual -= 50
+                    if (it.dineroActual < 0) it.dineroActual = 0 // Evitar que el dinero sea negativo
+                    mostrarJugadores() // Actualiza la interfaz con los nuevos valores
+                    viewModel.actualizarDineroJugadorActual()
+                }
+            } else {
+                calcularDinero(count)
+                viewModel.actualizarDineroJugadorActual()
+            }
+
         } else {
             mensaje = "La letra '$letra' no está en la frase"
             actualizarJugador()
         }
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
 
-        // Verifica si la frase está completamente revelada
-        val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual) ?: return
-        if (frase.indices.all { letrasVisibles[it] || frase[it] == ' ' }) {
-            Toast.makeText(this, "Felicidades!! " + jugadorActual.nombre + " ha adivinado la frase", Toast.LENGTH_LONG).show()
+        // Añade la letra a las desactivadas
+        viewModel.letrasDesactivadas.add(letra)
 
-            jugadorActual.dineroTotal += jugadorActual.dineroActual
+        // Retraso antes de cambiar de fragmento
+        Handler(Looper.getMainLooper()).postDelayed({
+            mostrarBotonesFragment()
+        }, 1200)
 
-            Handler(Looper.getMainLooper()).postDelayed({
-                avanzarRonda()
-                mostrarBotonesFragment()
-            }, 1500)
-        } else{
-            // Añade la letra a las desactivadas
-            viewModel.letrasDesactivadas.add(letra)
-
-            // Retraso antes de cambiar de fragmento
-            Handler(Looper.getMainLooper()).postDelayed({
-                mostrarBotonesFragment()
-            }, 1200)
-        }
     }
 
     fun calcularDinero(count: Int) {
@@ -169,18 +174,22 @@ class PanelActivity : AppCompatActivity() {
             "Pierde turno", "Vocales" -> {
                 actualizarJugador()
             }
+
             "Quiebra" -> {
                 jugadorActual.dineroActual = 0
                 actualizarJugador()
             }
+
             "1/2" -> {
                 if (jugadorActual.dineroActual > 0) {
                     jugadorActual.dineroActual /= 2
                 }
             }
+
             "x2" -> {
                 jugadorActual.dineroActual *= 2
             }
+
             else -> {
                 // Se asume que `cantidadRuleta` se puede convertir a un número
                 val cantidad = viewModel.cantidadRuleta.toIntOrNull() ?: 0
@@ -198,7 +207,7 @@ class PanelActivity : AppCompatActivity() {
             }
         }
         setupPanel(panel) // Actualiza el panel para mostrar toda la frase
-
+        avanzarRonda()
     }
 
     fun mostrarBotonesFragment() {
@@ -209,27 +218,52 @@ class PanelActivity : AppCompatActivity() {
 
     private fun avanzarRonda() {
 
-        val frases = listOf(
-            "  TARTA DE      FRESAS Y       NATA CON     CHOCOLATE",
-            "HELADO DE VAINILLA Y CARAMELO",
-            "PIZZA DE QUESO Y PEPPERONI"
-        )
+        // Sumar el dineroActual del jugador actual a su dineroTotal
+        val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual)
+        jugadorActual?.let {
+            it.dineroTotal += it.dineroActual
+        }
 
-        frase = frases[viewModel.ronda]
-        viewModel.ronda += 1
+        // Reiniciar el dineroActual de todos los jugadores a 0
+        viewModel.jugadores?.forEach { jugador ->
+            jugador.dineroActual = 0
+        }
 
+        val frasesPanel = FrasesPanel()
+        viewModel.ronda++
+
+        // Obtén las frases de la ronda actual
+        val frasesDeLaRonda = frasesPanel.frasesPorRonda[viewModel.ronda]
+
+        // Selecciona una frase aleatoria
+        val (fraseSeleccionada, pista) = frasesDeLaRonda!!.random()
+
+        // Actualiza la frase y las letras visibles
+        frase = fraseSeleccionada
         letrasVisibles = MutableList(frase.length) { frase[it] == ' ' }
 
-        setupPanel(panel)
+        // Muestra la pista en el TextView correspondiente
+        val tvPista = findViewById<TextView>(R.id.tvPista)
+        tvPista.text = "Pista: " + pista
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            setupPanel(panel)
+        }, 1800)
 
         // Notifica a los jugadores del cambio de ronda
-        Toast.makeText(this, "¡Nueva frase para la ronda" + viewModel.ronda + "!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this,
+            "¡Nueva frase para la ronda" + viewModel.ronda + "!",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        mostrarJugadores()
     }
 
     private fun actualizarJugador() {
-
         viewModel.jugadorActual = (viewModel.jugadorActual + 1) % viewModel.jugadores!!.size
-        nombreJugadorActual.text = viewModel.jugadores?.get(viewModel.jugadorActual)?.nombre ?: "Sin nombre"
+        nombreJugadorActual.text =
+            viewModel.jugadores?.get(viewModel.jugadorActual)?.nombre ?: "Sin nombre"
         mostrarJugadores()
     }
 
