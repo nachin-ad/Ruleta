@@ -28,6 +28,7 @@ class PanelActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[PanelViewModel::class.java]
 
+        //Lista de jugadores
         viewModel.jugadores = listOf(
             Jugador("Daniel", 0, 0, R.drawable.personaje4),
             Jugador("María", 0, 0, R.drawable.personaje8),
