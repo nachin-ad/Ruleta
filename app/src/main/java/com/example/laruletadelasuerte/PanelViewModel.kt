@@ -10,6 +10,7 @@ class PanelViewModel : ViewModel() {
     val letrasDesactivadas: MutableSet<Char> = mutableSetOf()
     var ronda: Int = 0
     val dineroJugadorActual = MutableLiveData<Int>()
+    var bote: Int = 0
 
     // Actualiza el dinero del jugador actual en el LiveData
     fun actualizarDineroJugadorActual() {

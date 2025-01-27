@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 
 class VocalesFragment : Fragment() {
 
+    private lateinit var botones: List<Button>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -21,33 +23,42 @@ class VocalesFragment : Fragment() {
 
         var viewModel = ViewModelProvider(requireActivity())[PanelViewModel::class.java]
 
-        val botones = listOf(
-            view.findViewById<Button>(R.id.buttonA),
-            view.findViewById<Button>(R.id.buttonE),
-            view.findViewById<Button>(R.id.buttonI),
-            view.findViewById<Button>(R.id.buttonO),
-            view.findViewById<Button>(R.id.buttonU)
+        botones = listOf(
+            view.findViewById(R.id.buttonA),
+            view.findViewById(R.id.buttonE),
+            view.findViewById(R.id.buttonI),
+            view.findViewById(R.id.buttonO),
+            view.findViewById(R.id.buttonU)
         )
 
 
-        botones.forEach { button ->
-            val letra = button.text[0]
+        botones.forEach { boton ->
+            val letra = boton.text[0]
 
             // Desactivar el botón si ya está en la lista de desactivados
             if (viewModel.letrasDesactivadas.contains(letra)) {
-                button.isEnabled = false
-                button.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
+                boton.isEnabled = false
+                boton.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
             }
 
-            button.setOnClickListener {
-                val letra = button.text[0]
+            boton.setOnClickListener {
+                val letra = boton.text[0]
                 (activity as? PanelActivity)?.resaltarYRevelarLetra(letra)
-                button.isEnabled = false
-                button.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
+                boton.isEnabled = false
+                boton.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
             }
         }
 
         return view
     }
+
+    fun desactivarVocales(){
+        botones.forEach { boton ->
+            boton.isEnabled = false
+            boton.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
+        }
+    }
+
+
 
 }

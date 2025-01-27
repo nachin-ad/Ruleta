@@ -6,40 +6,40 @@ class FrasesPanel {
         1 to listOf(
             "   SE BUSCA      UN GATO         CON         SOMBRERO   " to "Titular loco",
             "  LLUVIA DE    HAMBURGUESAS    CAE SOBRE     LA CIUDAD  " to "Titular loco",
-            " QUE PASARIA  SI LOS ARBOLES    FUERAN       DE QUESO   " to "Titular loco",
+            "   CREA UNA    PECERA PARA  SACAR A PASEAR A SUS PECES  " to "Titular loco",
             " ESTE LIQUIDO   ES ESENCIAL    PARA LA         VIDA     " to "Definición de concepto",
             " ESTA PLANTA   GRANDE TIENE   UN TRONCO   LEÑOSO Y HOJAS" to "Definición de concepto"
 
         ),
 
         2 to listOf(
-            "" to "",
-            "" to "",
-            "" to "",
-            "" to "",
-            "" to ""
+            "LIQUIDO QUE BEBEMOS Y PROVIENE DE UN ANIMAL" to "Definición de concepto",
+            "" to "Letra de una canción",
+            "" to "Letra de una canción",
+            "" to "Letra de una canción",
+            "SE GENERA A TRAVES DE BATERIAS" to "Descubrimiento científico"
         ),
 
         3 to listOf(
-            "" to "",
-            "" to "",
-            "" to "",
-            "" to "",
-            "" to ""
+            "LOS SERES VIVOS CAMBIAN CON EL TIEMPO" to "Descubrimiento científico",
+            "" to "Descubrimiento científico",
+            " VEO EN TI LO  QUE VAN GOGH  VEIA EN LAS    ESTRELLAS   " to "Panel del amor/desamor",
+            "ERES MI MEDIA NARANJA" to "Panel del amor/desamor",
+            " TU ROSTRO ES LO QUE QUIERO  VER AL FINAL    DEL DIA    " to "Panel del amor/desamor"
         ),
 
         4 to listOf(
-            "" to "",
-            "" to "",
-            "" to ""
+            "  TARTA DE      FRESAS Y       NATA CON     CHOCOLATE   " to "Panel con bote",
+            "" to "Panel con bote",
+            "" to "Panel con bote"
         )
     )
 
     val frasesPanelFinal = listOf(
-        Pair("  TARTA DE      FRESAS Y       NATA CON     CHOCOLATE   ", "Postre delicioso"),
-        Pair("", ""),
-        Pair("", ""),
-        Pair("", ""),
+        Pair("A BUEN HAMBRE NO HAY MAL PAN", ""),
+        Pair("MAS VALE TARDE QUE NUNCA", ""),
+        Pair("A MAL TIEMPO BUENA CARA", ""),
+        Pair("CREA FAMA Y ECHATE A DORMIR", ""),
         Pair("", ""),
         Pair("", ""),
         Pair("", ""),

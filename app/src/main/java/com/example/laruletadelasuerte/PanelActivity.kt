@@ -140,6 +140,13 @@ class PanelActivity : AppCompatActivity() {
         val mensaje: String
         if (count > 0) {
             mensaje = "La letra '$letra' aparece $count ${if (count > 1) "veces" else "vez"}"
+
+            if (viewModel.ronda == 4) {
+                viewModel.bote += count * 100
+                val tvPista = findViewById<TextView>(R.id.tvPista)
+                tvPista.text = "Bote: ${viewModel.bote}"
+            }
+
             // Restamos 50 al dinero del jugador actual si es una vocal
             if (esVocal) {
                 val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual)
@@ -153,8 +160,8 @@ class PanelActivity : AppCompatActivity() {
             } else {
                 calcularDinero(count)
                 viewModel.actualizarDineroJugadorActual()
-            }
 
+            }
         } else {
             mensaje = "La letra '$letra' no está en la frase"
             actualizarJugador()
@@ -174,7 +181,7 @@ class PanelActivity : AppCompatActivity() {
         val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual) ?: return
 
         when (viewModel.cantidadRuleta) {
-            "Pierde turno", "Vocales" -> {
+            "Pierde turno" -> {
                 actualizarJugador()
             }
 
@@ -191,6 +198,17 @@ class PanelActivity : AppCompatActivity() {
 
             "x2" -> {
                 jugadorActual.dineroActual *= 2
+            }
+
+            "Vocales" -> {
+                revelarVocales()
+                val fragment =
+                    supportFragmentManager.findFragmentById(R.id.frameLayout) as VocalesFragment
+                fragment.desactivarVocales()
+            }
+
+            "BOTE" -> {
+                jugadorActual.dineroActual += viewModel.bote
             }
 
             else -> {
@@ -234,15 +252,28 @@ class PanelActivity : AppCompatActivity() {
         val frasesPanel = FrasesPanel()
         viewModel.ronda++
 
-        val frasesDeLaRonda = frasesPanel.frasesPorRonda[viewModel.ronda]
-
-        val (fraseSeleccionada, pista) = frasesDeLaRonda!!.random()
-
-        frase = fraseSeleccionada
-        letrasVisibles = MutableList(frase.length) { frase[it] == ' ' }
-
+        // TextView donde se muestra la pista o el bote
         val tvPista = findViewById<TextView>(R.id.tvPista)
-        tvPista.text = "Pista: " + pista
+
+        if (viewModel.ronda == 4) {
+            // Configuración específica para la ronda 4
+            viewModel.bote = 0 // Reinicia el bote al iniciar la ronda
+            frase = frasesPanel.frasesPorRonda[viewModel.ronda]?.random()?.first ?: ""
+
+            letrasVisibles = MutableList(frase.length) { frase[it] == ' ' }
+
+            tvPista.text = "Bote: ${viewModel.bote}"
+
+        } else {
+            // Configuración para otras rondas
+            val frasesDeLaRonda = frasesPanel.frasesPorRonda[viewModel.ronda]
+            val (fraseSeleccionada, pista) = frasesDeLaRonda!!.random()
+
+            frase = fraseSeleccionada
+            letrasVisibles = MutableList(frase.length) { frase[it] == ' ' }
+
+            tvPista.text = pista
+        }
 
         Handler(Looper.getMainLooper()).postDelayed({
             setupPanel(panel)
@@ -256,6 +287,49 @@ class PanelActivity : AppCompatActivity() {
 
         mostrarJugadores()
     }
+
+    private fun revelarVocales() {
+        val vocales = listOf('a', 'e', 'i', 'o', 'u')
+
+        /*
+        for (i in frase.indices) {
+            val letra = frase[i].lowercaseChar()
+            if (letra in vocales) {
+
+                letrasVisibles[i] = true
+                val textView = panel.getChildAt(i) as TextView
+
+                textView.setBackgroundResource(R.drawable.rounded_background_orange)
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    letrasVisibles[i] = true
+                    textView.text = letra.toString()
+                    textView.setBackgroundResource(R.drawable.rounded_background_white)
+                }, 1000)
+            }
+        }
+
+        setupPanel(panel)*/
+        for (i in frase.indices) {
+            val letra = frase[i].lowercaseChar()
+            if (letra in vocales) {
+                val textView = panel.getChildAt(i) as? TextView
+                textView?.setBackgroundResource(R.drawable.rounded_background_orange)
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    letrasVisibles[i] = true
+                    textView?.text = letra.toString()
+                    textView?.setBackgroundResource(R.drawable.rounded_background_white)
+                }, 1000) // Retraso de 1 segundo
+            }
+        }
+
+        // Actualiza el panel para reflejar el estado de las letras visibles
+        Handler(Looper.getMainLooper()).postDelayed({
+            setupPanel(panel)
+        }, 1000)
+    }
+
 
     private fun actualizarJugador() {
         viewModel.jugadorActual = (viewModel.jugadorActual + 1) % viewModel.jugadores!!.size
