@@ -36,15 +36,15 @@ class FrasesPanel {
     )
 
     val frasesPanelFinal = listOf(
-        Pair("A BUEN HAMBRE NO HAY MAL PAN", ""),
-        Pair("MAS VALE TARDE QUE NUNCA", ""),
-        Pair("A MAL TIEMPO BUENA CARA", ""),
-        Pair("CREA FAMA Y ECHATE A DORMIR", ""),
-        Pair("", ""),
-        Pair("", ""),
-        Pair("", ""),
-        Pair("", ""),
-        Pair("", ""),
-        Pair("", "")
+        ("A BUEN HAMBRE NO HAY MAL PAN"),
+        ("MAS VALE TARDE QUE NUNCA"),
+        ("A MAL TIEMPO BUENA CARA"),
+        ("CREA FAMA Y ECHATE A DORMIR"),
+        (""),
+        (""),
+        (""),
+        (""),
+        (""),
+        ("")
     )
 }
