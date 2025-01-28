@@ -371,4 +371,22 @@ class PanelActivity : AppCompatActivity() {
         }
 
     }
+
+    //guardar el jugador que gane en la base de datos
+    /*
+    * val dbHistorial = Historial(this)
+    val fechaActual = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+
+    dbHistorial.guardarPartida(
+    viewModel.jugadores?.get(0)?.nombre ?: "",
+    viewModel.jugadores?.get(0)?.dineroTotal ?: 0,
+    viewModel.jugadores?.get(1)?.nombre ?: "",
+    viewModel.jugadores?.get(1)?.dineroTotal ?: 0,
+    viewModel.jugadores?.get(2)?.nombre ?: "",
+    viewModel.jugadores?.get(2)?.dineroTotal ?: 0,
+    ganador = determinarGanador(), // Función que devuelvería el nombre del ganador
+    fecha = fechaActual
+)
+    * */
+
 }
