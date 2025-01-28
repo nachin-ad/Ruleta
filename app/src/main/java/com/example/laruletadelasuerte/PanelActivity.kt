@@ -31,11 +31,9 @@ class PanelActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[PanelViewModel::class.java]
 
         //Lista de jugadores
-        viewModel.jugadores = listOf(
-            Jugador("Daniel", 0, 0, R.drawable.personaje4),
-            Jugador("María", 0, 0, R.drawable.personaje8),
-            Jugador("Luis", 0, 0, R.drawable.personaje3)
-        )
+        val bundle = intent.extras
+        viewModel.jugadores = bundle?.getParcelableArrayList("jugadores")
+
 
         viewModel.actualizarDineroJugadorActual()
         nombreJugadorActual = findViewById(R.id.nombreJugadorActual)
@@ -202,9 +200,9 @@ class PanelActivity : AppCompatActivity() {
 
             "Vocales" -> {
                 revelarVocales()
-                val fragment =
+                /*val fragment =
                     supportFragmentManager.findFragmentById(R.id.frameLayout) as VocalesFragment
-                fragment.desactivarVocales()
+                fragment.desactivarVocales()*/
             }
 
             "BOTE" -> {

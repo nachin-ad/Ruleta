@@ -32,9 +32,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/boton_jugar"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="#AFD9EA"
-            android:text="Opciones"
+            android:text="Historial"
             android:textColor="#000000"
             android:textSize="20sp" />
 

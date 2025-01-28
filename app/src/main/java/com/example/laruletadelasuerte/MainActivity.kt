@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
 
         btnJugar.setOnClickListener {
-            val intentPanel = Intent(this, PanelActivity::class.java)
+            val intentPanel = Intent(this, PersonajesActivity::class.java)
             startActivity(intentPanel)
         }
     }
