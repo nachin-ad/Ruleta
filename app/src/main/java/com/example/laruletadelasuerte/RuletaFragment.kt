@@ -27,16 +27,9 @@ class RuletaFragment : Fragment() {
     private lateinit var giraRuleta: MediaPlayer
 
     private val ruleta1Sections = arrayOf(
-        "Vocales", "1/2", "Vocales", "Pierde turno", "Vocales", "50", "Vocales", "Vocales", "75", "Vocales", "Vocales", "Vocales",
-        "50", "Vocales", "x2", "Pierde turno", "Vocales", "1/2", "Vocales", "Quiebra", "Vocales", "50", "Vocales", "Vocales"
-    )
-
-    /*
-    private val ruleta1Sections = arrayOf(
         "0", "1/2", "x2", "Pierde turno", "200", "50", "100", "Quiebra", "75", "0", "25", "100",
         "50", "Vocales", "x2", "Pierde turno", "125", "1/2", "75", "Quiebra", "200", "50", "125", "25"
     )
-     */
 
     private val ruleta2Sections = arrayOf(
         "0", "1/2", "x2", "Pierde turno", "200", "50", "100", "Quiebra", "BOTE", "0", "25", "100",
