@@ -1,6 +1,7 @@
 package com.example.laruletadelasuerte
 
 import android.animation.ObjectAnimator
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,12 +24,19 @@ class RuletaFragment : Fragment() {
     private lateinit var ivRuleta: ImageView
     private var scaleX: ObjectAnimator? = null
     private var scaleY: ObjectAnimator? = null
+    private lateinit var giraRuleta: MediaPlayer
 
+    private val ruleta1Sections = arrayOf(
+        "Vocales", "1/2", "Vocales", "Pierde turno", "Vocales", "50", "Vocales", "Vocales", "75", "Vocales", "Vocales", "Vocales",
+        "50", "Vocales", "x2", "Pierde turno", "Vocales", "1/2", "Vocales", "Quiebra", "Vocales", "50", "Vocales", "Vocales"
+    )
 
+    /*
     private val ruleta1Sections = arrayOf(
         "0", "1/2", "x2", "Pierde turno", "200", "50", "100", "Quiebra", "75", "0", "25", "100",
         "50", "Vocales", "x2", "Pierde turno", "125", "1/2", "75", "Quiebra", "200", "50", "125", "25"
     )
+     */
 
     private val ruleta2Sections = arrayOf(
         "0", "1/2", "x2", "Pierde turno", "200", "50", "100", "Quiebra", "BOTE", "0", "25", "100",
@@ -56,6 +64,7 @@ class RuletaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        giraRuleta = MediaPlayer.create(requireContext(), R.raw.giraruleta)
         val btnSpin = view.findViewById<Button>(R.id.btnGirar)
         ivRuleta = view.findViewById(R.id.ivGirar)
 
@@ -98,6 +107,7 @@ class RuletaFragment : Fragment() {
     private fun girarRuleta(view: View) {
         val ivRuleta = view.findViewById<ImageView>(R.id.imageView2)
 
+        giraRuleta.start()
         val randomDegree = (5 * 360) + Random.nextInt(0, 360)
         val pivotX = ivRuleta.width / 2f
         val pivotY = ivRuleta.height / 2f
@@ -116,6 +126,7 @@ class RuletaFragment : Fragment() {
                 override fun onAnimationEnd(animation: Animation?) {
                     val finalDegree = randomDegree % 360
                     val result = calcularResultado(finalDegree)
+                    giraRuleta.stop()
                     Toast.makeText(activity, "Resultado de la ruleta: " + result, Toast.LENGTH_LONG).show()
 
                     viewModel.cantidadRuleta = result

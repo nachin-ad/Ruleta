@@ -2,6 +2,7 @@ package com.example.laruletadelasuerte
 
 import android.graphics.Color
 import android.graphics.Typeface
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -22,6 +23,9 @@ class PanelActivity : AppCompatActivity() {
     private lateinit var viewModel: PanelViewModel
     private var jugadorActual = 0
     private lateinit var nombreJugadorActual: TextView
+    private lateinit var sonidoAcierto: MediaPlayer
+    private val vocales = listOf('A', 'E', 'I', 'O', 'U')
+    private var vocalesAdivinadas = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +33,8 @@ class PanelActivity : AppCompatActivity() {
 
         // Inicialización del viewModel
         viewModel = ViewModelProvider(this)[PanelViewModel::class.java]
+
+        sonidoAcierto = MediaPlayer.create(this, R.raw.aciertopasapalabra)
 
         //Lista de jugadores
         val bundle = intent.extras
@@ -132,12 +138,13 @@ class PanelActivity : AppCompatActivity() {
         }
 
         // Verificamos si la letra es una vocal
-        val esVocal = letra.lowercaseChar() in listOf('a', 'e', 'i', 'o', 'u')
+        val esVocal = letra.uppercaseChar() in vocales
 
         // Actualizamos el mensaje
         val mensaje: String
         if (count > 0) {
             mensaje = "La letra '$letra' aparece $count ${if (count > 1) "veces" else "vez"}"
+            sonidoAcierto.start()
 
             if (viewModel.ronda == 4) {
                 viewModel.bote += count * 100
@@ -145,21 +152,25 @@ class PanelActivity : AppCompatActivity() {
                 tvPista.text = "Bote: ${viewModel.bote}"
             }
 
-            // Restamos 50 al dinero del jugador actual si es una vocal
-            if (esVocal) {
-                val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual)
-                jugadorActual?.let {
-                    it.dineroActual -= 50
-                    if (it.dineroActual < 0) it.dineroActual =
-                        0 // Evitar que el dinero sea negativo
-                    mostrarJugadores() // Actualiza la interfaz con los nuevos valores
+            if(!vocalesAdivinadas){
+                // Restamos 50 al dinero del jugador actual si es una vocal
+                if (esVocal) {
+                    val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual)
+                    jugadorActual?.let {
+                        it.dineroActual -= 50
+                        if (it.dineroActual < 0) it.dineroActual =
+                            0 // Evitar que el dinero sea negativo
+                        mostrarJugadores() // Actualiza la interfaz con los nuevos valores
+                        viewModel.actualizarDineroJugadorActual()
+                    }
+                } else {
+                    calcularDinero(count)
                     viewModel.actualizarDineroJugadorActual()
                 }
             } else {
-                calcularDinero(count)
-                viewModel.actualizarDineroJugadorActual()
-
+                vocalesAdivinadas = true
             }
+
         } else {
             mensaje = "La letra '$letra' no está en la frase"
             actualizarJugador()
@@ -199,10 +210,12 @@ class PanelActivity : AppCompatActivity() {
             }
 
             "Vocales" -> {
-                revelarVocales()
-                /*val fragment =
-                    supportFragmentManager.findFragmentById(R.id.frameLayout) as VocalesFragment
-                fragment.desactivarVocales()*/
+                if (!vocalesAdivinadas){
+                    vocalesAdivinadas = true
+                    for (letra in vocales){
+                        resaltarYRevelarLetra(letra)
+                    }
+                }
             }
 
             "BOTE" -> {
@@ -285,49 +298,6 @@ class PanelActivity : AppCompatActivity() {
 
         mostrarJugadores()
     }
-
-    private fun revelarVocales() {
-        val vocales = listOf('a', 'e', 'i', 'o', 'u')
-
-        /*
-        for (i in frase.indices) {
-            val letra = frase[i].lowercaseChar()
-            if (letra in vocales) {
-
-                letrasVisibles[i] = true
-                val textView = panel.getChildAt(i) as TextView
-
-                textView.setBackgroundResource(R.drawable.rounded_background_orange)
-
-                Handler(Looper.getMainLooper()).postDelayed({
-                    letrasVisibles[i] = true
-                    textView.text = letra.toString()
-                    textView.setBackgroundResource(R.drawable.rounded_background_white)
-                }, 1000)
-            }
-        }
-
-        setupPanel(panel)*/
-        for (i in frase.indices) {
-            val letra = frase[i].lowercaseChar()
-            if (letra in vocales) {
-                val textView = panel.getChildAt(i) as? TextView
-                textView?.setBackgroundResource(R.drawable.rounded_background_orange)
-
-                Handler(Looper.getMainLooper()).postDelayed({
-                    letrasVisibles[i] = true
-                    textView?.text = letra.toString()
-                    textView?.setBackgroundResource(R.drawable.rounded_background_white)
-                }, 1000) // Retraso de 1 segundo
-            }
-        }
-
-        // Actualiza el panel para reflejar el estado de las letras visibles
-        Handler(Looper.getMainLooper()).postDelayed({
-            setupPanel(panel)
-        }, 1000)
-    }
-
 
     private fun actualizarJugador() {
         viewModel.jugadorActual = (viewModel.jugadorActual + 1) % viewModel.jugadores!!.size
