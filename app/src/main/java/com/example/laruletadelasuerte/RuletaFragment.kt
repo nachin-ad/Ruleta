@@ -117,9 +117,10 @@ class RuletaFragment : Fragment() {
                 override fun onAnimationStart(animation: Animation?) {}
 
                 override fun onAnimationEnd(animation: Animation?) {
+                    giraRuleta.stop()
                     val finalDegree = randomDegree % 360
                     val result = calcularResultado(finalDegree)
-                    giraRuleta.stop()
+
                     Toast.makeText(activity, "Resultado de la ruleta: " + result, Toast.LENGTH_LONG).show()
 
                     viewModel.cantidadRuleta = result

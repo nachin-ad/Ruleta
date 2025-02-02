@@ -1,5 +1,6 @@
 package com.example.laruletadelasuerte
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.media.MediaPlayer
@@ -239,7 +240,14 @@ class PanelActivity : AppCompatActivity() {
             }
         }
         setupPanel(panel)
-        avanzarRonda()
+
+        if(viewModel.ronda != 4){
+            avanzarRonda()
+        } else {
+            val intentPanelFinal = Intent(this, PanelFinalActivity::class.java)
+            startActivity(intentPanelFinal)
+        }
+
     }
 
     fun mostrarBotonesFragment() {
@@ -260,6 +268,7 @@ class PanelActivity : AppCompatActivity() {
             jugador.dineroActual = 0
         }
 
+
         val frasesPanel = FrasesPanel()
         viewModel.ronda++
 
@@ -271,8 +280,6 @@ class PanelActivity : AppCompatActivity() {
             viewModel.bote = 0 // Reinicia el bote al iniciar la ronda
             frase = frasesPanel.frasesPorRonda[viewModel.ronda]?.random()?.first ?: ""
 
-            letrasVisibles = MutableList(frase.length) { frase[it] == ' ' }
-
             tvPista.text = "Bote: ${viewModel.bote}"
 
         } else {
@@ -281,22 +288,31 @@ class PanelActivity : AppCompatActivity() {
             val (fraseSeleccionada, pista) = frasesDeLaRonda!!.random()
 
             frase = fraseSeleccionada
-            letrasVisibles = MutableList(frase.length) { frase[it] == ' ' }
 
             tvPista.text = pista
         }
+
+        viewModel.rondaLiveData.value = viewModel.ronda
+        viewModel.letrasDesactivadas.clear()
+        letrasVisibles = MutableList(frase.length) { frase[it] == ' ' }
 
         Handler(Looper.getMainLooper()).postDelayed({
             setupPanel(panel)
         }, 1800)
 
+        mostrarBotonesFragment()
         Toast.makeText(
             this,
             "¡Nueva frase para la ronda" + viewModel.ronda + "!",
             Toast.LENGTH_SHORT
         ).show()
 
-        mostrarJugadores()
+        if (viewModel.ronda != 1){
+            actualizarJugador()
+        } else {
+            mostrarJugadores()
+        }
+
     }
 
     private fun actualizarJugador() {

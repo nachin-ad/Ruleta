@@ -47,6 +47,17 @@ class ConsonantesFragment : Fragment() {
             view.findViewById<Button>(R.id.buttonZ),
         )
 
+        fun actualizarBotones() {
+            botones.forEach { button ->
+                button.isEnabled = true
+                button.setBackgroundColor(Color.parseColor("#FFFFFF")) // Color original
+            }
+        }
+
+        viewModel.rondaLiveData.observe(viewLifecycleOwner) {
+            actualizarBotones()
+        }
+
         botones.forEach { button ->
             val letra = button.text[0]
 
@@ -54,13 +65,14 @@ class ConsonantesFragment : Fragment() {
             if (viewModel.letrasDesactivadas.contains(letra)) {
                 button.isEnabled = false
                 button.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
+            } else {
+                button.setOnClickListener {
+                    (activity as? PanelActivity)?.resaltarYRevelarLetra(letra)
+                    button.isEnabled = false
+                    button.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
+                }
             }
 
-            button.setOnClickListener {
-                (activity as? PanelActivity)?.resaltarYRevelarLetra(letra)
-                button.isEnabled = false
-                button.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
-            }
         }
 
         return view

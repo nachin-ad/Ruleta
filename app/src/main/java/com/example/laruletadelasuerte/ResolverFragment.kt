@@ -47,8 +47,6 @@ class ResolverFragment : Fragment() {
             // Revelar la frase completa en el panel
             (activity as? PanelActivity)?.revelarFraseCompleta()
 
-            // Opcional: Navegar a otro fragmento o reiniciar el juego
-            (activity as? PanelActivity)?.mostrarBotonesFragment()
         } else {
             Toast.makeText(requireContext(), "¡Respuesta incorrecta!", Toast.LENGTH_SHORT).show()
         }

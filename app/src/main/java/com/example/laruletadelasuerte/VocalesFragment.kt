@@ -31,6 +31,16 @@ class VocalesFragment : Fragment() {
             view.findViewById(R.id.buttonU)
         )
 
+        fun activarVocales() {
+            botones.forEach { boton ->
+                boton.isEnabled = true
+                boton.setBackgroundColor(Color.parseColor("#FFFFFF")) // Color original
+            }
+        }
+
+        viewModel.rondaLiveData.observe(viewLifecycleOwner) {
+            activarVocales()
+        }
 
         botones.forEach { boton ->
             val letra = boton.text[0]
@@ -39,26 +49,19 @@ class VocalesFragment : Fragment() {
             if (viewModel.letrasDesactivadas.contains(letra)) {
                 boton.isEnabled = false
                 boton.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
+            } else {
+                boton.setOnClickListener {
+                    val letra = boton.text[0]
+                    (activity as? PanelActivity)?.resaltarYRevelarLetra(letra)
+                    boton.isEnabled = false
+                    boton.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
+                }
             }
 
-            boton.setOnClickListener {
-                val letra = boton.text[0]
-                (activity as? PanelActivity)?.resaltarYRevelarLetra(letra)
-                boton.isEnabled = false
-                boton.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
-            }
+
         }
 
         return view
     }
-
-    fun desactivarVocales(){
-        botones.forEach { boton ->
-            boton.isEnabled = false
-            boton.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
-        }
-    }
-
-
 
 }

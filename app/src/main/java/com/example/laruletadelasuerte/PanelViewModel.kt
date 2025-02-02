@@ -11,6 +11,7 @@ class PanelViewModel : ViewModel() {
     var ronda: Int = 0
     val dineroJugadorActual = MutableLiveData<Int>()
     var bote: Int = 0
+    val rondaLiveData = MutableLiveData<Int>()
 
     // Actualiza el dinero del jugador actual en el LiveData
     fun actualizarDineroJugadorActual() {
