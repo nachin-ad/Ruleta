@@ -25,6 +25,7 @@ class PanelActivity : AppCompatActivity() {
     private var jugadorActual = 0
     private lateinit var nombreJugadorActual: TextView
     private lateinit var sonidoAcierto: MediaPlayer
+    private lateinit var sonidoFallo: MediaPlayer
     private val vocales = listOf('A', 'E', 'I', 'O', 'U')
     private var vocalesAdivinadas = false
 
@@ -35,7 +36,8 @@ class PanelActivity : AppCompatActivity() {
         // Inicialización del viewModel
         viewModel = ViewModelProvider(this)[PanelViewModel::class.java]
 
-        sonidoAcierto = MediaPlayer.create(this, R.raw.aciertopasapalabra)
+        sonidoAcierto = MediaPlayer.create(this, R.raw.sonidoacierto)
+        sonidoFallo = MediaPlayer.create(this, R.raw.sonidofallo)
 
         //Lista de jugadores
         val bundle = intent.extras
@@ -174,6 +176,7 @@ class PanelActivity : AppCompatActivity() {
 
         } else {
             mensaje = "La letra '$letra' no está en la frase"
+            sonidoFallo.start()
             actualizarJugador()
         }
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
@@ -192,10 +195,12 @@ class PanelActivity : AppCompatActivity() {
 
         when (viewModel.cantidadRuleta) {
             "Pierde turno" -> {
+                sonidoFallo.start()
                 actualizarJugador()
             }
 
             "Quiebra" -> {
+                sonidoFallo.start()
                 jugadorActual.dineroActual = 0
                 actualizarJugador()
             }
@@ -214,7 +219,9 @@ class PanelActivity : AppCompatActivity() {
                 if (!vocalesAdivinadas){
                     vocalesAdivinadas = true
                     for (letra in vocales){
-                        resaltarYRevelarLetra(letra)
+                        if (!viewModel.letrasDesactivadas.contains(letra)){
+                            resaltarYRevelarLetra(letra)
+                        }
                     }
                 }
             }
@@ -315,7 +322,7 @@ class PanelActivity : AppCompatActivity() {
 
     }
 
-    private fun actualizarJugador() {
+    fun actualizarJugador() {
         viewModel.jugadorActual = (viewModel.jugadorActual + 1) % viewModel.jugadores!!.size
         nombreJugadorActual.text =
             viewModel.jugadores?.get(viewModel.jugadorActual)?.nombre ?: "Sin nombre"

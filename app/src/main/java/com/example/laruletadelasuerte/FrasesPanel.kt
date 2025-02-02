@@ -36,11 +36,11 @@ class FrasesPanel {
     )
 
     val frasesPanelFinal = listOf(
-        ("A BUEN HAMBRE NO HAY MAL PAN"),
-        ("MAS VALE TARDE QUE NUNCA"),
-        ("A MAL TIEMPO BUENA CARA"),
-        ("CREA FAMA Y ECHATE A DORMIR"),
-        (""),
+        "A BUEN HAMBRE NO HAY MAL PAN" to "Refrán español",
+        "MAS VALE TARDE QUE NUNCA" to "Refrán español",
+        "A MAL TIEMPO BUENA CARA" to "Refrán español",
+        "CREA FAMA Y ECHATE A DORMIR" to "Refrán español",
+        "LA ALHAMBRA Y GRANADA" to "Monumento y ciudad",
         (""),
         (""),
         (""),

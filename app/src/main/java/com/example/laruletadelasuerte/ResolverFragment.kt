@@ -1,5 +1,6 @@
 package com.example.laruletadelasuerte
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,8 @@ class ResolverFragment : Fragment() {
     private lateinit var editTextRespuesta: EditText
     private lateinit var btnComprobar: Button
     private lateinit var viewModel: PanelViewModel
+    private lateinit var sonidoFallo: MediaPlayer
+    private lateinit var sonidoGanar: MediaPlayer
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,6 +26,8 @@ class ResolverFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_resolver, container, false)
         viewModel = ViewModelProvider(requireActivity())[PanelViewModel::class.java]
 
+        sonidoFallo = MediaPlayer.create(requireContext(), R.raw.sonidofallo)
+        sonidoGanar = MediaPlayer.create(requireContext(), R.raw.sonidoganar)
         editTextRespuesta = view.findViewById(R.id.editTextRespuesta)
         btnComprobar = view.findViewById(R.id.btnComprobar)
 
@@ -43,12 +48,17 @@ class ResolverFragment : Fragment() {
 
         if (respuestaUsuario.equals(fraseCorrecta, ignoreCase = true)) {
             Toast.makeText(requireContext(), "¡Correcto! " + jugadorActual.nombre + " ha adivinado la frase", Toast.LENGTH_SHORT).show()
+            sonidoGanar.start()
 
             // Revelar la frase completa en el panel
             (activity as? PanelActivity)?.revelarFraseCompleta()
 
         } else {
             Toast.makeText(requireContext(), "¡Respuesta incorrecta!", Toast.LENGTH_SHORT).show()
+            sonidoFallo.start()
+
+            (activity as? PanelActivity)?.actualizarJugador()
+            (activity as? PanelActivity)?.mostrarBotonesFragment()
         }
     }
 }
