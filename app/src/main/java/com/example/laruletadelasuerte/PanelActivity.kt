@@ -322,7 +322,6 @@ class PanelActivity : AppCompatActivity() {
         } else {
             mostrarJugadores()
         }
-
     }
 
     fun actualizarJugador() {
