@@ -332,7 +332,6 @@ class PanelActivity : AppCompatActivity() {
     }
 
     private fun mostrarJugadores() {
-
         // Actualizamos las vistas con los datos de los jugadores
         val nombres = listOf(
             findViewById<TextView>(R.id.nombreJugador1),
