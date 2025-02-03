@@ -180,6 +180,7 @@
             android:background="#81BBF4"
             android:padding="3dp"
             android:text="Pista"
+            android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
