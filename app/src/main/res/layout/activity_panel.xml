@@ -166,7 +166,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="50dp"
-            android:background="#0E5394"
+            android:background="@color/azul_oscuro"
             android:columnCount="14"
             android:orientation="horizontal"
             android:padding="16dp"

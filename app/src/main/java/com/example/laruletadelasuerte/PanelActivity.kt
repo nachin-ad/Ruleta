@@ -38,6 +38,7 @@ class PanelActivity : AppCompatActivity() {
 
         sonidoAcierto = MediaPlayer.create(this, R.raw.sonidoacierto)
         sonidoFallo = MediaPlayer.create(this, R.raw.sonidofallo)
+        sonidoFallo.setVolume(0.3f, 0.3f)
 
         //Lista de jugadores
         val bundle = intent.extras
@@ -176,7 +177,9 @@ class PanelActivity : AppCompatActivity() {
 
         } else {
             mensaje = "La letra '$letra' no está en la frase"
-            sonidoFallo.start()
+            if(!viewModel.cantidadRuleta.equals("Vocales")){
+                sonidoFallo.start()
+            }
             actualizarJugador()
         }
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()

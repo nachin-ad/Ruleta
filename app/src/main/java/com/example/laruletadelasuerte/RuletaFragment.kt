@@ -58,6 +58,7 @@ class RuletaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         giraRuleta = MediaPlayer.create(requireContext(), R.raw.giraruleta)
+        giraRuleta.setVolume(2.3f, 2.3f)
         val btnSpin = view.findViewById<Button>(R.id.btnGirar)
         ivRuleta = view.findViewById(R.id.ivGirar)
 
