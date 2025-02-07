@@ -12,6 +12,7 @@ import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 
@@ -31,6 +32,7 @@ class PanelActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_panel)
 
         // Inicialización del viewModel
@@ -255,6 +257,8 @@ class PanelActivity : AppCompatActivity() {
             avanzarRonda()
         } else {
             val intentPanelFinal = Intent(this, PanelFinalActivity::class.java)
+            intent.putParcelableArrayListExtra("jugadores",
+                viewModel.jugadores?.let { ArrayList(it) })
             startActivity(intentPanelFinal)
         }
 
