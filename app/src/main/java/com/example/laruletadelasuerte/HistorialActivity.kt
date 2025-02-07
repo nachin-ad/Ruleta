@@ -1,15 +1,17 @@
 package com.example.laruletadelasuerte
 
 
-    import android.os.Bundle
-    import androidx.appcompat.app.AppCompatActivity
-    import androidx.recyclerview.widget.LinearLayoutManager
-    import androidx.recyclerview.widget.RecyclerView
+import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class HistorialActivity : AppCompatActivity() {
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
+            enableEdgeToEdge()
             setContentView(R.layout.activity_historial)
 
             val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewHistorial)

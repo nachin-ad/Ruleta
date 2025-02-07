@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val btnJugar = findViewById<Button>(R.id.boton_jugar)
-        val btnHistorial = findViewById<Button>(R.id.boton_opciones)
+        val btnHistorial = findViewById<Button>(R.id.boton_historial)
         val btnReglas = findViewById<Button>(R.id.boton_reglas)
 
         btnJugar.setOnClickListener {
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         btnHistorial.setOnClickListener{
-            val intent = Intent(this, Historial::class.java)
+            val intent = Intent(this, HistorialActivity::class.java)
             startActivity(intent)
         }
         btnReglas.setOnClickListener{

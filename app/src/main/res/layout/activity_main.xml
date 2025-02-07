@@ -28,7 +28,7 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/boton_opciones"
+            android:id="@+id/boton_historial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/boton_jugar"
@@ -43,7 +43,7 @@
             android:id="@+id/boton_reglas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/boton_opciones"
+            android:layout_below="@id/boton_historial"
             android:layout_marginTop="9dp"
             android:backgroundTint="#AFD9EA"
             android:text="Reglas"

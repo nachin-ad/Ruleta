@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class Historial(context: Context) : SQLiteOpenHelper(context, NOMBRE_BASEDEDATOS, null, VERSION_BASEDEDATOS) {
-    companion object{
+    companion object {
         private const val NOMBRE_BASEDEDATOS = "historial.db"
         private const val VERSION_BASEDEDATOS = 1
 
@@ -21,6 +21,7 @@ class Historial(context: Context) : SQLiteOpenHelper(context, NOMBRE_BASEDEDATOS
         const val GANADOR = "ganador"
         const val FECHA = "fecha"
     }
+
     override fun onCreate(db: SQLiteDatabase) {
         val createTableQuery = """
             CREATE TABLE $NOMBRE_TABLA (
@@ -37,6 +38,7 @@ class Historial(context: Context) : SQLiteOpenHelper(context, NOMBRE_BASEDEDATOS
         """.trimIndent()
         db.execSQL(createTableQuery)
     }
+
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $NOMBRE_TABLA")
         onCreate(db)
@@ -62,10 +64,11 @@ class Historial(context: Context) : SQLiteOpenHelper(context, NOMBRE_BASEDEDATOS
         db.insert(NOMBRE_TABLA, null, values)
         db.close()
     }
+
     fun obtenerHistorial(): List<Partida> {
         val partidas = mutableListOf<Partida>()
         val db = this.readableDatabase
-        val cursor = db.rawQuery("SELECT * FROM $NOMBRE_TABLA OID_COLUM$ID_COLUMNA", null)
+        val cursor = db.rawQuery("SELECT * FROM $NOMBRE_TABLA", null) // ✅ CORREGIDO
 
         while (cursor.moveToNext()) {
             val partida = Partida(

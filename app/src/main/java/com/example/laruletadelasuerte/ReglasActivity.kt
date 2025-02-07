@@ -15,6 +15,7 @@ class ReglasActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_reglas)
 
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
