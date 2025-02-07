@@ -32,8 +32,10 @@ class SeleccionarPersonajeFragment(
         recyclerView.layoutManager = GridLayoutManager(context, 3)
 
         recyclerView.adapter = PersonajeAdapter(personajes) { imagenResId ->
-            onItemClick(imagenResId) // Llamamos al callback con la imagen seleccionada
-            dismiss() // Cerramos el BottomSheet después de seleccionar el personaje
+            recyclerView.postDelayed({
+                onItemClick(imagenResId) // Llamamos al callback con la imagen seleccionada
+                dismiss() // Cerramos el BottomSheet después de seleccionar el personaje
+            },500)
         }
 
         tvjugador.text = jugadorActual

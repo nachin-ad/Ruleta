@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        val historial = Historial(this)
         val btnJugar = findViewById<Button>(R.id.boton_jugar)
         val btnHistorial = findViewById<Button>(R.id.boton_historial)
         val btnReglas = findViewById<Button>(R.id.boton_reglas)
@@ -37,8 +38,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
         btnHistorial.setOnClickListener{
-            val intent = Intent(this, HistorialActivity::class.java)
-            startActivity(intent)
+            if (historial.isHistorialVacio()){
+                AlertDialog.Builder(this)
+                    .setTitle("Historial vacío")
+                    .setMessage("Todavía no tienes partidas guardadas en el historial. ¡Juega algunas partidas primero!")
+                    .setPositiveButton("OK"){dialog, _-> dialog.dismiss() }
+                    .show()
+            }else{
+                val intent = Intent(this, HistorialActivity::class.java)
+                startActivity(intent)
+            }
         }
         btnReglas.setOnClickListener{
             val intent = Intent(this, ReglasActivity::class.java)

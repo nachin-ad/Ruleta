@@ -26,7 +26,7 @@ class ReglasActivity : AppCompatActivity() {
 
         val textoTitulo = """
             Normas de la Ruleta de
-            📜                la Suerte               🎡
+            📜            la Suerte             🎡
             """.trimIndent()
 
         val textoReglas = """
