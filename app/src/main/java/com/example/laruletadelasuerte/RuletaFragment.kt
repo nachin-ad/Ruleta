@@ -95,7 +95,7 @@ class RuletaFragment : Fragment() {
                 ruletaSections = ruleta3Sections
                 ivRuleta.setImageResource(R.drawable.ruletafinal)
                 btnSpin.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), R.color.azul_final))
-                view.setBackgroundResource(R.drawable.fondo_2)
+                view.setBackgroundResource(R.drawable.fondo_3)
             }
         }
     }
