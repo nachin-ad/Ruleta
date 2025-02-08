@@ -1,6 +1,7 @@
 package com.example.laruletadelasuerte
 
 class FrasesPanel {
+    // Frases para las rondas 1, 2 ,3 y 4
     val frasesPorRonda: Map<Int, List<Pair<String, String>>> = mapOf(
 
         1 to listOf(
@@ -35,6 +36,7 @@ class FrasesPanel {
         )
     )
 
+    // Frases para la ronda final
     val frasesPanelFinal = listOf(
         "    A BUEN        HAMBRE         NO HAY       MAL PAN   " to "Refrán español",
         "   MAS VALE        TARDE      QUE NUNCA                 " to "Refrán español",
