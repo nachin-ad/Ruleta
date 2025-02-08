@@ -6,9 +6,7 @@
     android:gravity="center"
     android:background="#14436F">
 
-    <!-- EditText para el nombre del jugador -->
 
-    <!-- Button para continuar -->
     <EditText
         android:id="@+id/edtNombre"
         android:layout_width="wrap_content"
@@ -19,7 +17,6 @@
         android:textColor="@color/white"
         android:textColorHint="#92FFFFFF" />
 
-    <!-- TextView para mostrar el nombre del jugador -->
     <Button
         android:id="@+id/btnContinuar"
         android:layout_width="wrap_content"
@@ -38,7 +35,6 @@
         android:textSize="18sp"
         android:visibility="gone" />
 
-    <!-- RecyclerView para la selección de personajes -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

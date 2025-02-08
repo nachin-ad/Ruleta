@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -44,13 +45,16 @@ class SeleccionarPersonajeFragment(
 
     override fun onStart() {
         super.onStart()
-        val dialog = dialog as BottomSheetDialog
-        val bottomSheet =
-            dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-        bottomSheet?.let {
-            val layoutParams = it.layoutParams
-            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-            it.layoutParams = layoutParams
+        val dialog = dialog as? BottomSheetDialog
+        dialog?.let {
+            val bottomSheet =
+                it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            bottomSheet?.let { sheet ->
+                val layoutParams = sheet.layoutParams
+                layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+                sheet.layoutParams = layoutParams
+            }
+            it.behavior.isDraggable = false
         }
     }
 
