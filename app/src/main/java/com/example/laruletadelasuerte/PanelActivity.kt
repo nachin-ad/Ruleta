@@ -235,8 +235,10 @@ class PanelActivity : AppCompatActivity() {
             }
 
             "BOTE" -> {
+                val resolverFragment = ResolverFragment()
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, ResolverFragment())
+                    .add(R.id.frameLayout, resolverFragment)  // Usa add en lugar de replace
+                    .addToBackStack(null)  // Permite que el usuario regrese si es necesario
                     .commit()
             }
 

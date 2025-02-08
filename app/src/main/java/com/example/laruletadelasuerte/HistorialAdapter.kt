@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 class HistorialAdapter(private val context: Context, private val partidas: List<Partida>) :
     RecyclerView.Adapter<HistorialAdapter.ViewHolder>() {
 
+    private val partidasInvertidas = partidas.reversed()
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val txtFecha: TextView = view.findViewById(R.id.txtFecha)
         val txtJugador1: TextView = view.findViewById(R.id.txtJugador1)
@@ -27,7 +29,7 @@ class HistorialAdapter(private val context: Context, private val partidas: List<
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val partida = partidas[position]
+        val partida = partidasInvertidas[position]
         holder.txtFecha.text = partida.fecha
         holder.txtJugador1.text = partida.nombreJugador1+":"
         holder.txtJugador2.text = partida.nombreJugador2+":"
