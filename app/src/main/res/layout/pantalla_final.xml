@@ -4,24 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#14436F"
     tools:context=".PantallaFinal">
 
-    <!-- Título "Partida Terminada" -->
     <TextView
         android:id="@+id/txtPartidaTerminada"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Partida Terminada"
-        android:textSize="24sp"
-        android:textColor="#AFD9EA"
-        android:textStyle="bold"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingBottom="16dp"/>
+        android:textSize="30sp"
+    android:textColor="#AFD9EA"
+    android:textStyle="bold"
+    android:gravity="center"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginTop="32dp" />
 
-    <!-- Jugador 1 y su dinero -->
     <LinearLayout
         android:id="@+id/player1Layout"
         android:layout_width="0dp"
@@ -31,25 +30,26 @@
         app:layout_constraintTop_toBottomOf="@id/txtPartidaTerminada"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:paddingBottom="16dp">
+        android:paddingBottom="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp">
 
         <TextView
             android:id="@+id/txtJugador1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#AFD9EA"
-            android:paddingEnd="8dp"/>
+            android:textSize="22sp"
+        android:textColor="#AFD9EA"
+        android:paddingEnd="8dp"/>
 
         <TextView
             android:id="@+id/txtDinero1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#AFD9EA"/>
+            android:textSize="22sp"
+        android:textColor="#AFD9EA"/>
     </LinearLayout>
 
-    <!-- Jugador 2 y su dinero -->
     <LinearLayout
         android:id="@+id/player2Layout"
         android:layout_width="0dp"
@@ -59,25 +59,26 @@
         app:layout_constraintTop_toBottomOf="@id/player1Layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:paddingBottom="16dp">
+        android:paddingBottom="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp">
 
         <TextView
             android:id="@+id/txtJugador2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#AFD9EA"
-            android:paddingEnd="8dp"/>
+            android:textSize="22sp"
+        android:textColor="#AFD9EA"
+        android:paddingEnd="8dp"/>
 
         <TextView
             android:id="@+id/txtDinero2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#AFD9EA"/>
+            android:textSize="22sp"
+        android:textColor="#AFD9EA"/>
     </LinearLayout>
 
-    <!-- Jugador 3 y su dinero -->
     <LinearLayout
         android:id="@+id/player3Layout"
         android:layout_width="0dp"
@@ -87,36 +88,37 @@
         app:layout_constraintTop_toBottomOf="@id/player2Layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:paddingBottom="16dp">
+        android:paddingBottom="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp">
 
         <TextView
             android:id="@+id/txtJugador3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#AFD9EA"
-            android:paddingEnd="8dp"/>
+            android:textSize="22sp"
+        android:textColor="#AFD9EA"
+        android:paddingEnd="8dp"/>
 
         <TextView
             android:id="@+id/txtDinero3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#AFD9EA"/>
+            android:textSize="22sp"
+        android:textColor="#AFD9EA"/>
     </LinearLayout>
 
-    <!-- Ganador -->
     <TextView
         android:id="@+id/txtGanador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="#AFD9EA"
-        android:textStyle="italic"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/player3Layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingBottom="16dp"/>
+        android:textSize="24sp"
+    android:textColor="#AFD9EA"
+    android:textStyle="italic"
+    android:gravity="center"
+    app:layout_constraintTop_toBottomOf="@id/player3Layout"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:paddingBottom="32dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

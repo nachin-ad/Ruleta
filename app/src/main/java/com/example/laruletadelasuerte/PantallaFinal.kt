@@ -36,13 +36,13 @@ class PantallaFinal : AppCompatActivity() {
             txtPartidaTerminada.text = "Partida Terminada"
 
             txtJugador1.text = ultimaPartida.nombreJugador1
-            txtDinero1.text = "$${ultimaPartida.dineroJugador1}"
+            txtDinero1.text = "${ultimaPartida.dineroJugador1}€"
 
             txtJugador2.text = ultimaPartida.nombreJugador2
-            txtDinero2.text = "$${ultimaPartida.dineroJugador2}"
+            txtDinero2.text = "${ultimaPartida.dineroJugador2}€"
 
             txtJugador3.text = ultimaPartida.nombreJugador3
-            txtDinero3.text = "$${ultimaPartida.dineroJugador3}"
+            txtDinero3.text = "${ultimaPartida.dineroJugador3}€"
 
             txtGanador.text = "¡Ganador: ${ultimaPartida.ganador}!"
         }
