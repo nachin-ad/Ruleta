@@ -92,8 +92,6 @@ class ConsonantesFragment : Fragment() {
             }
 
         }
-
         return view
     }
-
 }

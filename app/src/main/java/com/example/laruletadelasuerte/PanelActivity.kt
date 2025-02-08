@@ -191,7 +191,7 @@ class PanelActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             mostrarBotonesFragment()
-        }, 1200)
+        }, 1300)
 
     }
 
@@ -259,7 +259,10 @@ class PanelActivity : AppCompatActivity() {
             val intentPanelFinal = Intent(this, PanelFinalActivity::class.java)
             intentPanelFinal.putParcelableArrayListExtra("jugadores",
                 viewModel.jugadores?.let { ArrayList(it) })
-            startActivity(intentPanelFinal)
+            Handler(Looper.getMainLooper()).postDelayed({
+                startActivity(intentPanelFinal)
+            }, 1600)
+
         }
 
     }
@@ -370,22 +373,5 @@ class PanelActivity : AppCompatActivity() {
         }
 
     }
-
-    //guardar el jugador que gane en la base de datos
-    /*
-    * val dbHistorial = Historial(this)
-    val fechaActual = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
-
-    dbHistorial.guardarPartida(
-    viewModel.jugadores?.get(0)?.nombre ?: "",
-    viewModel.jugadores?.get(0)?.dineroTotal ?: 0,
-    viewModel.jugadores?.get(1)?.nombre ?: "",
-    viewModel.jugadores?.get(1)?.dineroTotal ?: 0,
-    viewModel.jugadores?.get(2)?.nombre ?: "",
-    viewModel.jugadores?.get(2)?.dineroTotal ?: 0,
-    ganador = determinarGanador(), // Función que devuelvería el nombre del ganador
-    fecha = fechaActual
-)
-    * */
 
 }
