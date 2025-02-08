@@ -162,11 +162,21 @@ class PanelActivity : AppCompatActivity() {
             }
 
             if (viewModel.cantidadRuleta != "Vocales") {
-                calcularDinero(count) // Permitir que siempre se sumen puntos
-            }
+                if (esVocal){
+                    val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual)
+                    jugadorActual?.let {
+                        it.dineroActual -= 50
+                        if (it.dineroActual < 0) it.dineroActual =
+                            0 // Evitar que el dinero sea negativo
+                        mostrarJugadores() // Actualiza la interfaz con los nuevos valores
+                        viewModel.actualizarDineroJugadorActual()
+                    }
+                } else {
+                    calcularDinero(count)
+                    viewModel.actualizarDineroJugadorActual()
+                }
 
-            // Si se activaron todas las vocales, marca el estado
-            if (viewModel.cantidadRuleta == "Vocales" && !vocalesAdivinadas) {
+            } else if (!vocalesAdivinadas){
                 vocalesAdivinadas = true
             }
 

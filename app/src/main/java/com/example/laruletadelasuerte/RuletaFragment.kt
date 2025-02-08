@@ -32,9 +32,16 @@ class RuletaFragment : Fragment() {
     )
 
     private val ruleta2Sections = arrayOf(
+        "BOTE", "BOTE", "BOTE", "Pierde turno", "BOTE", "50", "BOTE", "BOTE", "BOTE", "BOTE", "25", "100",
+        "50", "Vocales", "BOTE", "Pierde turno", "125", "BOTE", "75", "Quiebra", "200", "50", "BOTE", "25"
+    )
+
+    /*
+    private val ruleta2Sections = arrayOf(
         "0", "1/2", "x2", "Pierde turno", "200", "50", "100", "Quiebra", "BOTE", "0", "25", "100",
         "50", "Vocales", "x2", "Pierde turno", "125", "1/2", "75", "Quiebra", "200", "50", "125", "25"
     )
+     */
 
     private val ruleta3Sections = arrayOf(
         "L", "A", "*", "R", "U", "L", "E", "T", "A", "*", "D", "E",
