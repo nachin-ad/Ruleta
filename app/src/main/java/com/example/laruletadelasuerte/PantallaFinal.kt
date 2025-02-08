@@ -1,6 +1,8 @@
 package com.example.laruletadelasuerte
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -14,9 +16,19 @@ class PantallaFinal : AppCompatActivity() {
     lateinit var txtJugador3: TextView
     lateinit var txtDinero3: TextView
     lateinit var txtGanador: TextView
+    lateinit var btnVolverAJugar: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.pantalla_final)
+
+        btnVolverAJugar = findViewById(R.id.btnVolverAJugar)
+
+        btnVolverAJugar.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         txtPartidaTerminada = findViewById(R.id.txtPartidaTerminada)
         txtJugador1 = findViewById(R.id.txtJugador1)
