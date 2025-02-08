@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text=""
+            android:text="Letras establecidas: R, S, F, Y, O"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="26sp" />

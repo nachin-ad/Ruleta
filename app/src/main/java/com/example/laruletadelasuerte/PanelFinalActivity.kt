@@ -190,7 +190,6 @@ class PanelFinalActivity : AppCompatActivity() {
                     tiempoRestante = (millisUntilFinished / 1000).toInt()
                     it.text = "$tiempoRestante"
                 }
-
                 override fun onFinish() {
                     mostrarDialogoDerrota()
                 }
