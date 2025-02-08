@@ -16,24 +16,27 @@ class BotonesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflar el diseño para este fragmento
+        // Inflamos el diseño para este fragmento
         val view = inflater.inflate(R.layout.fragment_botones, container, false)
+
+        // ViewModel para manejar la lógica del panel
         viewModel = ViewModelProvider(requireActivity())[PanelViewModel::class.java]
 
-        // Encontrar las vistas con findViewById
+        // Obtenemos las referencias a los botones
         val btnVocales = view.findViewById<Button>(R.id.btnVocales)
         val btnRuleta = view.findViewById<Button>(R.id.btnRuleta)
         val btnResolver = view.findViewById<Button>(R.id.btnResolver)
 
+        // Observador para actualizar la habilitación del botón de vocales
         viewModel.dineroJugadorActual.observe(viewLifecycleOwner) { dineroActual ->
             btnVocales.isClickable = dineroActual >= 50
             btnVocales.alpha = if (dineroActual >= 50) 1.0f else 0.8f
         }
 
-        // Forzar actualización manual al crear la vista
+        // Forzamos la actualización al crear la vista
         viewModel.actualizarDineroJugadorActual()
 
-        // Configurar los listeners de los botones
+        // Configuramoss los listeners de los botones
         btnVocales.setOnClickListener {
             replaceFragment(VocalesFragment())
         }
@@ -49,6 +52,7 @@ class BotonesFragment : Fragment() {
         return view
     }
 
+    // Método para reemplazar dinámicamente el fragmento dentro del contenedor
     private fun replaceFragment(fragment: Fragment) {
         parentFragmentManager.beginTransaction()
             .replace(R.id.frameLayout, fragment)
