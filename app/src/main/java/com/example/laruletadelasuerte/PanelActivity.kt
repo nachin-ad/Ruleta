@@ -13,7 +13,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 
 class PanelActivity : AppCompatActivity() {
@@ -187,7 +189,7 @@ class PanelActivity : AppCompatActivity() {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
 
         // Añadimos la letra a las desactivadas
-        viewModel.letrasDesactivadas.add(letra)
+        viewModel.agregarLetraDesactivada(letra)
 
         Handler(Looper.getMainLooper()).postDelayed({
             mostrarBotonesFragment()
@@ -223,9 +225,11 @@ class PanelActivity : AppCompatActivity() {
             "Vocales" -> {
                 if (!vocalesAdivinadas) {
                     vocalesAdivinadas = true
-                    for (letra in vocales) {
-                        if (!viewModel.letrasDesactivadas.contains(letra)) {
-                            resaltarYRevelarLetra(letra)
+                    viewModel.letrasDesactivadasLiveData.observe(this) { letrasDesactivadas ->
+                        for (letra in vocales) {
+                            if (!letrasDesactivadas.contains(letra)) {
+                                resaltarYRevelarLetra(letra)
+                            }
                         }
                     }
                 }
@@ -256,12 +260,32 @@ class PanelActivity : AppCompatActivity() {
         if (viewModel.ronda != 4) {
             avanzarRonda()
         } else {
+            // Sumamos el dineroActual del jugador actual a su dineroTotal
+            val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual)
+            jugadorActual?.let {
+                it.dineroTotal += it.dineroActual
+            }
+
             val intentPanelFinal = Intent(this, PanelFinalActivity::class.java)
             intentPanelFinal.putParcelableArrayListExtra("jugadores",
                 viewModel.jugadores?.let { ArrayList(it) })
+
+            val jugadorFinal = viewModel.jugadores?.maxByOrNull { it.dineroTotal }!!
+
+            val alertDialogFinal = AlertDialog.Builder(this)
+                .setTitle("¡Enhorabuena! ${jugadorFinal.nombre}, pasas a la ronda final")
+                .setMessage("Deberás elegir 3 consonantes y una vocal y resolver el panel en menos de 20 segundos para conseguir un gan premio")
+                .setPositiveButton("OK"){dialog, _->
+                    startActivity(intentPanelFinal)
+                }
+                .create()
+            alertDialogFinal.show()
+            alertDialogFinal.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.azul_oscuro))
+
+            /*
             Handler(Looper.getMainLooper()).postDelayed({
                 startActivity(intentPanelFinal)
-            }, 1600)
+            }, 1600)*/
 
         }
 
@@ -309,7 +333,7 @@ class PanelActivity : AppCompatActivity() {
         }
 
         viewModel.rondaLiveData.value = viewModel.ronda
-        viewModel.letrasDesactivadas.clear()
+        viewModel.limpiarLetrasDesactivadas()
         letrasVisibles = MutableList(frase.length) { frase[it] == ' ' }
 
         Handler(Looper.getMainLooper()).postDelayed({

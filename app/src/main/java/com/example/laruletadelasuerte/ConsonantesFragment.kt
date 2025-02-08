@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 
 class ConsonantesFragment : Fragment() {
@@ -52,46 +53,42 @@ class ConsonantesFragment : Fragment() {
             view.findViewById<Button>(R.id.buttonZ),
         )
 
-        fun actualizarBotones() {
+        // Observar el LiveData de letras desactivadas y actualizar los botones
+        viewModel.letrasDesactivadasLiveData.observe(viewLifecycleOwner) { letrasDesactivadas ->
             botones.forEach { button ->
-                button.isEnabled = true
-                button.setBackgroundColor(Color.parseColor("#FFFFFF")) // Color original
-            }
-        }
-
-        viewModel.rondaLiveData.observe(viewLifecycleOwner) {
-            actualizarBotones()
-        }
-
-        botones.forEach { button ->
-            val letra = button.text[0]
-
-            // Desactivar el botón si ya está en la lista de desactivados
-            if (viewModel.letrasDesactivadas.contains(letra)) {
-                button.isEnabled = false
-                button.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
-            } else {
-                button.setOnClickListener {
-                    if (viewModel.ronda == 5){
-                        if (consonantesElegidas.size < 3){
-                            consonantesElegidas.add(letra)
-                            (activity as? PanelFinalActivity)?.resaltarYRevelarLetra(letra)
-                            button.isEnabled = false
-                            button.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
-
-                            if (consonantesElegidas.size == 3) {
-                                (activity as? PanelFinalActivity)?.mostrarVocalesFragment()
-                            }
-                        }
-                    } else {
-                        (activity as? PanelActivity)?.resaltarYRevelarLetra(letra)
-                    }
+                val letra = button.text[0]
+                if (letrasDesactivadas.contains(letra)) {
                     button.isEnabled = false
-                    button.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
+                    button.setBackgroundColor(Color.parseColor("#F0F0F0")) // Gris oscuro
+                } else {
+                    button.isEnabled = true
+                    button.setBackgroundColor(Color.parseColor("#FFFFFF")) // Color original
                 }
             }
-
         }
+
+        // Configurar la acción de los botones
+        botones.forEach { button ->
+            button.setOnClickListener {
+                val letra = button.text[0]
+
+                if (viewModel.ronda == 5) {
+                    if (consonantesElegidas.size < 3) {
+                        consonantesElegidas.add(letra)
+                        (activity as? PanelFinalActivity)?.resaltarYRevelarLetra(letra)
+                    }
+                    if (consonantesElegidas.size == 3) {
+                        (activity as? PanelFinalActivity)?.mostrarVocalesFragment()
+                    }
+                } else {
+                    (activity as? PanelActivity)?.resaltarYRevelarLetra(letra)
+                }
+
+                // Agregar la letra desactivada al ViewModel
+                viewModel.agregarLetraDesactivada(letra)
+            }
+        }
+
         return view
     }
 }

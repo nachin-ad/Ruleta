@@ -45,22 +45,25 @@ class VocalesFragment : Fragment() {
         botones.forEach { boton ->
             val letra = boton.text[0]
 
-            // Desactivar el botón si ya está en la lista de desactivados
-            if (viewModel.letrasDesactivadas.contains(letra)) {
-                boton.isEnabled = false
-                boton.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
-            } else {
-                boton.setOnClickListener {
-                    val letra = boton.text[0]
-                    if (viewModel.ronda == 5){
-                        (activity as? PanelFinalActivity)?.resaltarYRevelarLetra(letra)
-                        (activity as? PanelFinalActivity)?.mostrarResolverFragment()
-                    } else {
-                        (activity as? PanelActivity)?.resaltarYRevelarLetra(letra)
-                    }
-
+            // Si las letras desactivadas es un LiveData, se debe observar
+            viewModel.letrasDesactivadasLiveData.observe(viewLifecycleOwner) { letrasDesactivadas ->
+                // Desactivar el botón si ya está en la lista de desactivados
+                if (letrasDesactivadas.contains(letra)) {
                     boton.isEnabled = false
                     boton.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
+                } else {
+                    boton.setOnClickListener {
+                        val letra = boton.text[0]
+                        if (viewModel.ronda == 5) {
+                            (activity as? PanelFinalActivity)?.resaltarYRevelarLetra(letra)
+                            (activity as? PanelFinalActivity)?.mostrarResolverFragment()
+                        } else {
+                            (activity as? PanelActivity)?.resaltarYRevelarLetra(letra)
+                        }
+
+                        boton.isEnabled = false
+                        boton.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
+                    }
                 }
             }
         }

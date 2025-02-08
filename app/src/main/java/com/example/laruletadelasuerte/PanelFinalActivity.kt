@@ -44,14 +44,8 @@ class PanelFinalActivity : AppCompatActivity() {
         val jugadores = intent.getParcelableArrayListExtra<Jugador>("jugadores")
         viewModel.jugadores = jugadores
         viewModel.ronda = 5
+        jugadorFinal = jugadores?.maxByOrNull { it.dineroTotal }!!
 
-        if (!jugadores.isNullOrEmpty()) {
-            jugadorFinal = jugadores.maxByOrNull { it.dineroTotal }!!
-        } else {
-            Toast.makeText(this, "No hay jugadores disponibles", Toast.LENGTH_LONG).show()
-            finish()
-            return
-        }
 
         tvTiempo = findViewById(R.id.tvTiempo)
 
@@ -183,7 +177,7 @@ class PanelFinalActivity : AppCompatActivity() {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
 
         // Añadimos la letra a las desactivadas
-        viewModel.letrasDesactivadas.add(letra)
+        viewModel.agregarLetraDesactivada(letra)
 
     }
 

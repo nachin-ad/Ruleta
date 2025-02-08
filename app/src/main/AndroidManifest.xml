@@ -22,9 +22,6 @@
             android:name=".PanelFinalActivity"
             android:exported="false" />
         <activity
-            android:name=".HistorialActivity"
-            android:exported="false" />
-        <activity
             android:name=".PersonajesActivity"
             android:exported="false" />
         <activity
