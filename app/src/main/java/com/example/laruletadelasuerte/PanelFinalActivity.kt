@@ -142,7 +142,6 @@ class PanelFinalActivity : AppCompatActivity() {
         panel.addView(grayView)
     }
 
-
     // Función para revelar una letra en la frase y actualizar las celdas
     fun resaltarYRevelarLetra(letra: Char) {
         var count = 0
