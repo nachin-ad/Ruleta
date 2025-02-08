@@ -58,6 +58,7 @@ class PanelActivity : AppCompatActivity() {
         avanzarRonda()
         setupPanel(panel)
         mostrarBotonesFragment()
+
     }
 
     // Función para configurar el panel con celdas según la frase

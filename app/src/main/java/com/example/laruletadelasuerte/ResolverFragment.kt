@@ -99,10 +99,12 @@ class ResolverFragment : Fragment() {
     private fun mostrarDialogoVictoria() {
         AlertDialog.Builder(requireContext())
             .setTitle("¡Felicidades! 🎉")
-            .setMessage("Has resuelto la frase. ¡Eres un ganador!")
+            .setMessage("Has resuelto la frase. ¡Eres el ganador!")
             .setPositiveButton("Aceptar") { _, _ ->
-                // Crear intent para ir a MainActivity
-                val intent = Intent(requireContext(), MainActivity::class.java)
+                (activity as? PanelFinalActivity)?.guardarPartida()
+
+                // Crear intent para ir a Pantalla final
+                val intent = Intent(requireContext(), PantallaFinal::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
 

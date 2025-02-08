@@ -101,4 +101,29 @@ class Historial(context: Context) : SQLiteOpenHelper(context, NOMBRE_BASEDEDATOS
 
         return count == 0
     }
+    fun obtenerUltimaPartida(): Partida? {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $NOMBRE_TABLA ORDER BY $FECHA DESC LIMIT 1", null)
+
+        return if (cursor.moveToFirst()) {
+            val partida = Partida(
+                id = cursor.getInt(cursor.getColumnIndexOrThrow(ID_COLUMNA)),
+                nombreJugador1 = cursor.getString(cursor.getColumnIndexOrThrow(NOMBRE_JUGADOR1)),
+                dineroJugador1 = cursor.getInt(cursor.getColumnIndexOrThrow(DINERO_JUGADOR1)),
+                nombreJugador2 = cursor.getString(cursor.getColumnIndexOrThrow(NOMBRE_JUGADOR2)),
+                dineroJugador2 = cursor.getInt(cursor.getColumnIndexOrThrow(DINERO_JUGADOR2)),
+                nombreJugador3 = cursor.getString(cursor.getColumnIndexOrThrow(NOMBRE_JUGADOR3)),
+                dineroJugador3 = cursor.getInt(cursor.getColumnIndexOrThrow(DINERO_JUGADOR3)),
+                ganador = cursor.getString(cursor.getColumnIndexOrThrow(GANADOR)),
+                fecha = cursor.getString(cursor.getColumnIndexOrThrow(FECHA))
+            )
+            cursor.close()
+            db.close()
+            partida
+        } else {
+            cursor.close()
+            db.close()
+            null
+        }
+    }
 }

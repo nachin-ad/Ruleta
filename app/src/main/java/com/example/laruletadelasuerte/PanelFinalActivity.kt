@@ -204,10 +204,15 @@ class PanelFinalActivity : AppCompatActivity() {
         AlertDialog.Builder(this) // Ahora usamos "this" porque estamos en una Activity
             .setTitle("¡Tiempo agotado! ⏳")
             .setMessage("No lograste resolver la frase a tiempo. ¡Mejor suerte la próxima vez!")
-            .setPositiveButton("Aceptar") { _, _ -> // Crear intent para ir a MainActivity
-                val intent = Intent(this, MainActivity::class.java)
+            .setPositiveButton("Aceptar") { _, _ -> // Crear intent para ir a PantallaFinal
+
+                guardarPartida()
+
+                val intent = Intent(this, PantallaFinal::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent) }
+                startActivity(intent)
+                finish()
+            }
             .setCancelable(false)
             .show()
     }
@@ -247,7 +252,7 @@ class PanelFinalActivity : AppCompatActivity() {
             .commit()
     }
 
-    private fun guardarPartida(){
+    fun guardarPartida(){
         //Guardar el jugador que gane en la base de datos
         val dbHistorial = Historial(this)
         val fechaActual = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
