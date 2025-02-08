@@ -161,7 +161,7 @@ class PanelActivity : AppCompatActivity() {
                 tvPista.text = "Bote: ${viewModel.bote}"
             }
 
-            if (viewModel.cantidadRuleta != "Vocales") {
+            if (viewModel.cantidadRuleta != "Vocales" ) {
                 if (esVocal){
                     val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual)
                     jugadorActual?.let {
@@ -191,10 +191,11 @@ class PanelActivity : AppCompatActivity() {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
         viewModel.agregarLetraDesactivada(letra)
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            mostrarBotonesFragment()
-        }, 1300)
-
+        if (viewModel.cantidadRuleta != "BOTE"){
+            Handler(Looper.getMainLooper()).postDelayed({
+                mostrarBotonesFragment()
+            }, 1300)
+        }
     }
 
     fun calcularDinero(count: Int) {
