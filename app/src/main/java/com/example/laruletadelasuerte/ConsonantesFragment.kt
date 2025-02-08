@@ -20,14 +20,14 @@ class ConsonantesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-
-        // Inflar el diseño para este fragmento
+        // Inflamos el diseño para este fragmento
         val view = inflater.inflate(R.layout.fragment_consonantes, container, false)
 
 
-        // Obtener el ViewModel compartido
+        // Obtenemos el ViewModel compartido
         viewModel = ViewModelProvider(requireActivity())[PanelViewModel::class.java]
 
+        // Lista con los botones
         val botones = listOf(
             view.findViewById<Button>(R.id.buttonB),
             view.findViewById<Button>(R.id.buttonC),
@@ -53,7 +53,7 @@ class ConsonantesFragment : Fragment() {
             view.findViewById<Button>(R.id.buttonZ),
         )
 
-        // Observar el LiveData de letras desactivadas y actualizar los botones
+        // Observamos el LiveData de letras desactivadas y actualizar los botones
         viewModel.letrasDesactivadasLiveData.observe(viewLifecycleOwner) { letrasDesactivadas ->
             botones.forEach { button ->
                 val letra = button.text[0]
