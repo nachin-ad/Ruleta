@@ -14,7 +14,6 @@
         android:gravity="center"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,6 +23,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
             android:orientation="vertical">
 
             <TextView
@@ -65,20 +65,45 @@
             android:background="@color/azul_oscuro"
             android:columnCount="14"
             android:orientation="horizontal"
-            android:padding="16dp"
+            android:padding="14dp"
             android:rowCount="4" />
 
-        <FrameLayout
-            android:id="@+id/frameLayout1"
+        <TextView
+            android:id="@+id/tvPista2"
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="wrap_content"
+            android:background="#81BBF4"
+            android:padding="3dp"
+            android:text="Pista"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
-        </FrameLayout>
+        <TextView
+            android:id="@+id/tvTiempo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="26sp" />
+
+        <TextView
+            android:id="@+id/nombreJugadorActual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFDF6FF"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <FrameLayout
-            android:id="@+id/frameLayout2"
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="300dp">
+            android:layout_height="500dp">
 
         </FrameLayout>
 

@@ -11,16 +11,21 @@ import androidx.lifecycle.ViewModelProvider
 
 class ConsonantesFragment : Fragment() {
 
+    private lateinit var viewModel: PanelViewModel
+    private var consonantesElegidas = mutableListOf<Char>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
+
         // Inflar el diseño para este fragmento
         val view = inflater.inflate(R.layout.fragment_consonantes, container, false)
 
+
         // Obtener el ViewModel compartido
-        var viewModel = ViewModelProvider(requireActivity())[PanelViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[PanelViewModel::class.java]
 
         val botones = listOf(
             view.findViewById<Button>(R.id.buttonB),
@@ -67,7 +72,20 @@ class ConsonantesFragment : Fragment() {
                 button.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
             } else {
                 button.setOnClickListener {
-                    (activity as? PanelActivity)?.resaltarYRevelarLetra(letra)
+                    if (viewModel.ronda == 5){
+                        if (consonantesElegidas.size < 3){
+                            consonantesElegidas.add(letra)
+                            (activity as? PanelFinalActivity)?.resaltarYRevelarLetra(letra)
+                            button.isEnabled = false
+                            button.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
+
+                            if (consonantesElegidas.size == 3) {
+                                (activity as? PanelFinalActivity)?.mostrarVocalesFragment()
+                            }
+                        }
+                    } else {
+                        (activity as? PanelActivity)?.resaltarYRevelarLetra(letra)
+                    }
                     button.isEnabled = false
                     button.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
                 }

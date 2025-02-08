@@ -136,6 +136,9 @@ class RuletaFragment : Fragment() {
                             cambiarFragment(BotonesFragment())
                         } else {
                             cambiarFragment(ConsonantesFragment())
+                            if (viewModel.ronda == 5){
+                                (activity as? PanelFinalActivity)?.resolverLetras()
+                            }
                         }
                     }, 1200)
                 }

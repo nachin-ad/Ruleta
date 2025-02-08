@@ -158,7 +158,7 @@ class PanelActivity : AppCompatActivity() {
                 tvPista.text = "Bote: ${viewModel.bote}"
             }
 
-            if(!vocalesAdivinadas){
+            if (!vocalesAdivinadas) {
                 // Restamos 50 al dinero del jugador actual si es una vocal
                 if (esVocal) {
                     val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual)
@@ -179,7 +179,7 @@ class PanelActivity : AppCompatActivity() {
 
         } else {
             mensaje = "La letra '$letra' no está en la frase"
-            if(!viewModel.cantidadRuleta.equals("Vocales")){
+            if (!viewModel.cantidadRuleta.equals("Vocales")) {
                 sonidoFallo.start()
             }
             actualizarJugador()
@@ -221,10 +221,10 @@ class PanelActivity : AppCompatActivity() {
             }
 
             "Vocales" -> {
-                if (!vocalesAdivinadas){
+                if (!vocalesAdivinadas) {
                     vocalesAdivinadas = true
-                    for (letra in vocales){
-                        if (!viewModel.letrasDesactivadas.contains(letra)){
+                    for (letra in vocales) {
+                        if (!viewModel.letrasDesactivadas.contains(letra)) {
                             resaltarYRevelarLetra(letra)
                         }
                     }
@@ -253,11 +253,11 @@ class PanelActivity : AppCompatActivity() {
         }
         setupPanel(panel)
 
-        if(viewModel.ronda != 4){
+        if (viewModel.ronda != 4) {
             avanzarRonda()
         } else {
             val intentPanelFinal = Intent(this, PanelFinalActivity::class.java)
-            intent.putParcelableArrayListExtra("jugadores",
+            intentPanelFinal.putParcelableArrayListExtra("jugadores",
                 viewModel.jugadores?.let { ArrayList(it) })
             startActivity(intentPanelFinal)
         }
@@ -281,7 +281,6 @@ class PanelActivity : AppCompatActivity() {
         viewModel.jugadores?.forEach { jugador ->
             jugador.dineroActual = 0
         }
-
 
         val frasesPanel = FrasesPanel()
         viewModel.ronda++
@@ -314,18 +313,20 @@ class PanelActivity : AppCompatActivity() {
             setupPanel(panel)
         }, 1800)
 
-        mostrarBotonesFragment()
+
         Toast.makeText(
             this,
             "¡Nueva frase para la ronda" + viewModel.ronda + "!",
             Toast.LENGTH_SHORT
         ).show()
 
-        if (viewModel.ronda != 1){
+        if (viewModel.ronda != 1) {
             actualizarJugador()
         } else {
             mostrarJugadores()
         }
+
+        mostrarBotonesFragment()
     }
 
     fun actualizarJugador() {

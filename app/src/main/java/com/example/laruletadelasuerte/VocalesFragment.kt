@@ -52,16 +52,18 @@ class VocalesFragment : Fragment() {
             } else {
                 boton.setOnClickListener {
                     val letra = boton.text[0]
-                    (activity as? PanelActivity)?.resaltarYRevelarLetra(letra)
+                    if (viewModel.ronda == 5){
+                        (activity as? PanelFinalActivity)?.resaltarYRevelarLetra(letra)
+                        (activity as? PanelFinalActivity)?.mostrarResolverFragment()
+                    } else {
+                        (activity as? PanelActivity)?.resaltarYRevelarLetra(letra)
+                    }
+
                     boton.isEnabled = false
                     boton.setBackgroundColor(Color.parseColor("#F0F0F0FF"))
                 }
             }
-
-
         }
-
         return view
     }
-
 }
