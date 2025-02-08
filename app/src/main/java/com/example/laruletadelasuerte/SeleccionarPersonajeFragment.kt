@@ -39,7 +39,7 @@ class SeleccionarPersonajeFragment(
             },500)
         }
 
-        tvjugador.text = jugadorActual
+        tvjugador.text = "Hola $jugadorActual \n Elige un personaje:"
 
     }
 

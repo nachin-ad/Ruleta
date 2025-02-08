@@ -14,13 +14,14 @@ class PersonajeAdapter(
 ) : RecyclerView.Adapter<PersonajeAdapter.PersonajeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonajeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_personaje, parent, false)
-        return PersonajeViewHolder(view)
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_personaje,parent,false)
+            return PersonajeViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: PersonajeViewHolder, position: Int) {
-        val imagenResId = personajes[position]
-        holder.bind(imagenResId)
+    override fun onBindViewHolder(holder: PersonajeViewHolder, position: Int){
+            val imagenResId = personajes[position]
+            holder.bind(imagenResId)
     }
 
     override fun getItemCount(): Int = personajes.size
