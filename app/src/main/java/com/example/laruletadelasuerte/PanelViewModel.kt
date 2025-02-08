@@ -28,6 +28,6 @@ class PanelViewModel : ViewModel() {
 
     // Actualiza el dinero del jugador actual en el LiveData
     fun actualizarDineroJugadorActual() {
-        dineroJugadorActual.value = jugadores?.get(jugadorActual)?.dineroActual
+        dineroJugadorActual.postValue(jugadores?.get(jugadorActual)?.dineroActual ?: 0)
     }
 }

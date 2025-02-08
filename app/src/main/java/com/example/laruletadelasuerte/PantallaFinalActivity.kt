@@ -6,7 +6,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
-class PantallaFinal : AppCompatActivity() {
+class PantallaFinalActivity : AppCompatActivity() {
 
     lateinit var txtPartidaTerminada: TextView
     lateinit var txtJugador1: TextView
@@ -20,7 +20,7 @@ class PantallaFinal : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.pantalla_final)
+        setContentView(R.layout.activity_pantalla_final)
 
         btnVolverAJugar = findViewById(R.id.btnVolverAJugar)
 

@@ -26,9 +26,12 @@ class BotonesFragment : Fragment() {
         val btnResolver = view.findViewById<Button>(R.id.btnResolver)
 
         viewModel.dineroJugadorActual.observe(viewLifecycleOwner) { dineroActual ->
-            btnVocales.isClickable = dineroActual >= 50 // Habilita o deshabilita el botón según el dinero
-            btnVocales.alpha = if (dineroActual >= 50) 1.0f else 0.8f // Cambia la transparencia del botón
+            btnVocales.isClickable = dineroActual >= 50
+            btnVocales.alpha = if (dineroActual >= 50) 1.0f else 0.8f
         }
+
+        // Forzar actualización manual al crear la vista
+        viewModel.actualizarDineroJugadorActual()
 
         // Configurar los listeners de los botones
         btnVocales.setOnClickListener {

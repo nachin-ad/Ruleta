@@ -25,7 +25,7 @@
             android:name=".PersonajesActivity"
             android:exported="false" />
         <activity
-            android:name=".PantallaFinal"
+            android:name=".PantallaFinalActivity"
             android:exported="false" />
         <activity
             android:name=".PanelActivity"

@@ -1,16 +1,13 @@
 package com.example.laruletadelasuerte
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -65,6 +62,10 @@ class ResolverFragment : Fragment() {
             Toast.makeText(requireContext(), "¡Correcto! " + jugadorActual.nombre + " ha adivinado la frase", Toast.LENGTH_SHORT).show()
             sonidoGanar.start()
 
+            if(viewModel.cantidadRuleta.equals("BOTE")){
+                jugadorActual.dineroActual += viewModel.bote
+            }
+
             // Revelar la frase completa en el panel
             (activity as? PanelActivity)?.revelarFraseCompleta()
 
@@ -97,14 +98,17 @@ class ResolverFragment : Fragment() {
     }
 
     private fun mostrarDialogoVictoria() {
+        val premios = listOf(1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000)
+        val premioAleatorio = premios.random()
+        (activity as? PanelFinalActivity)?.sumarPremio(premioAleatorio)
         AlertDialog.Builder(requireContext())
             .setTitle("¡Felicidades! 🎉")
-            .setMessage("Has resuelto la frase. ¡Eres el ganador!")
+            .setMessage("Has resuelto la frase. ¡Eres el ganador!\n¡El premio detrás de ${viewModel.cantidadRuleta} es $premioAleatorio puntos!")
             .setPositiveButton("Aceptar") { _, _ ->
                 (activity as? PanelFinalActivity)?.guardarPartida()
 
                 // Crear intent para ir a Pantalla final
-                val intent = Intent(requireContext(), PantallaFinal::class.java)
+                val intent = Intent(requireContext(), PantallaFinalActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
 

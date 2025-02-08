@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#14436F"
-    tools:context=".PantallaFinal">
+    tools:context=".PantallaFinalActivity">
 
     <TextView
         android:id="@+id/txtPartidaTerminada"
@@ -126,13 +126,13 @@
         android:id="@+id/btnVolverAJugar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Volver a Jugar"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"
+        android:layout_marginTop="50dp"
         android:backgroundTint="#AFD9EA"
-        app:layout_constraintTop_toBottomOf="@id/txtGanador"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="Volver a Jugar"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="50dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtGanador" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

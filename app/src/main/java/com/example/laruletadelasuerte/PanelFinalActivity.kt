@@ -27,6 +27,7 @@ class PanelFinalActivity : AppCompatActivity() {
     private lateinit var panel: GridLayout
     private lateinit var letrasVisibles: MutableList<Boolean>
     private lateinit var viewModel: PanelViewModel
+    private lateinit var dineroJugador: TextView
     private lateinit var jugadorFinal: Jugador
     private lateinit var sonidoAcierto: MediaPlayer
     private val vocales = listOf('A', 'E', 'I', 'O', 'U')
@@ -55,7 +56,7 @@ class PanelFinalActivity : AppCompatActivity() {
         val imagenJugador = findViewById<ImageView>(R.id.ivJugador)
         imagenJugador.setImageResource(jugadorFinal.imagenResId)
 
-        val dineroJugador = findViewById<TextView>(R.id.dineroTotalJugador)
+        dineroJugador = findViewById(R.id.dineroTotalJugador)
         dineroJugador.text = jugadorFinal.dineroTotal.toString()
 
         sonidoAcierto = MediaPlayer.create(this, R.raw.sonidoacierto)
@@ -201,14 +202,12 @@ class PanelFinalActivity : AppCompatActivity() {
     }
 
     private fun mostrarDialogoDerrota() {
+        guardarPartida()
         AlertDialog.Builder(this) // Ahora usamos "this" porque estamos en una Activity
             .setTitle("¡Tiempo agotado! ⏳")
             .setMessage("No lograste resolver la frase a tiempo. ¡Mejor suerte la próxima vez!")
             .setPositiveButton("Aceptar") { _, _ -> // Crear intent para ir a PantallaFinal
-
-                guardarPartida()
-
-                val intent = Intent(this, PantallaFinal::class.java)
+                val intent = Intent(this, PantallaFinalActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
                 finish()
@@ -268,5 +267,21 @@ class PanelFinalActivity : AppCompatActivity() {
         fecha = fechaActual
     )
 
+    }
+
+    fun sumarPremio(premioAleatorio: Int) {
+        // Encontrar al jugador en la lista del ViewModel
+        val indexJugador = viewModel.jugadores?.indexOfFirst { it.nombre == jugadorFinal.nombre }
+
+        if (indexJugador != null && indexJugador >= 0) {
+            // Actualizar el dinero del jugador en la lista del ViewModel
+            viewModel.jugadores?.get(indexJugador)?.dineroTotal = jugadorFinal.dineroTotal + premioAleatorio
+        }
+
+        // También actualizar el objeto localmente
+        jugadorFinal.dineroTotal += premioAleatorio
+
+        // Actualizar la UI con el nuevo dinero
+        dineroJugador.text = jugadorFinal.dineroTotal.toString()
     }
 }

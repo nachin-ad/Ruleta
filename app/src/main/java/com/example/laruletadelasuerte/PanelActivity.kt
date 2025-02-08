@@ -40,14 +40,14 @@ class PanelActivity : AppCompatActivity() {
         // Inicialización del viewModel
         viewModel = ViewModelProvider(this)[PanelViewModel::class.java]
 
+        // Inicializaión de sonidos
         sonidoAcierto = MediaPlayer.create(this, R.raw.sonidoacierto)
-        sonidoFallo = MediaPlayer.create(this, R.raw.sonidofallo)
-        sonidoFallo.setVolume(0.3f, 0.3f)
+        sonidoFallo = MediaPlayer.create(this, R.raw.sonidofallo).apply {
+            setVolume(0.3f, 0.3f)
+        }
 
-        //Lista de jugadores
-        val bundle = intent.extras
-        viewModel.jugadores = bundle?.getParcelableArrayList("jugadores")
-
+        // Recuperamos los jugadores del Intent
+        viewModel.jugadores = intent.getParcelableArrayListExtra("jugadores") ?: arrayListOf()
 
         viewModel.actualizarDineroJugadorActual()
         nombreJugadorActual = findViewById(R.id.nombreJugadorActual)
@@ -161,22 +161,12 @@ class PanelActivity : AppCompatActivity() {
                 tvPista.text = "Bote: ${viewModel.bote}"
             }
 
-            if (!vocalesAdivinadas) {
-                // Restamos 50 al dinero del jugador actual si es una vocal
-                if (esVocal) {
-                    val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual)
-                    jugadorActual?.let {
-                        it.dineroActual -= 50
-                        if (it.dineroActual < 0) it.dineroActual =
-                            0 // Evitar que el dinero sea negativo
-                        mostrarJugadores() // Actualiza la interfaz con los nuevos valores
-                        viewModel.actualizarDineroJugadorActual()
-                    }
-                } else {
-                    calcularDinero(count)
-                    viewModel.actualizarDineroJugadorActual()
-                }
-            } else {
+            if (viewModel.cantidadRuleta != "Vocales") {
+                calcularDinero(count) // Permitir que siempre se sumen puntos
+            }
+
+            // Si se activaron todas las vocales, marca el estado
+            if (viewModel.cantidadRuleta == "Vocales" && !vocalesAdivinadas) {
                 vocalesAdivinadas = true
             }
 
@@ -187,9 +177,8 @@ class PanelActivity : AppCompatActivity() {
             }
             actualizarJugador()
         }
-        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
 
-        // Añadimos la letra a las desactivadas
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
         viewModel.agregarLetraDesactivada(letra)
 
         Handler(Looper.getMainLooper()).postDelayed({
@@ -226,18 +215,18 @@ class PanelActivity : AppCompatActivity() {
             "Vocales" -> {
                 if (!vocalesAdivinadas) {
                     vocalesAdivinadas = true
-                    viewModel.letrasDesactivadasLiveData.observe(this) { letrasDesactivadas ->
-                        for (letra in vocales) {
-                            if (!letrasDesactivadas.contains(letra)) {
-                                resaltarYRevelarLetra(letra)
-                            }
+                    for (letra in vocales) {
+                        if (!viewModel.letrasDesactivadasLiveData.value?.contains(letra)!! == true) {
+                            resaltarYRevelarLetra(letra)
                         }
                     }
                 }
             }
 
             "BOTE" -> {
-                jugadorActual.dineroActual += viewModel.bote
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.frameLayout, ResolverFragment())
+                    .commit()
             }
 
             else -> {
@@ -276,29 +265,21 @@ class PanelActivity : AppCompatActivity() {
             val alertDialogFinal = AlertDialog.Builder(this)
                 .setTitle("¡Enhorabuena! ${jugadorFinal.nombre}, pasas a la ronda final")
                 .setMessage("Deberás elegir 3 consonantes y una vocal y resolver el panel en menos de 20 segundos para conseguir un gan premio")
-                .setPositiveButton("OK"){dialog, _->
+                .setPositiveButton("OK") { dialog, _ ->
                     startActivity(intentPanelFinal)
                 }
                 .create()
             alertDialogFinal.show()
-            alertDialogFinal.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.azul_oscuro))
-
-            /*
-            Handler(Looper.getMainLooper()).postDelayed({
-                startActivity(intentPanelFinal)
-            }, 1600)*/
+            alertDialogFinal.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(ContextCompat.getColor(this, R.color.azul_oscuro))
 
         }
 
     }
 
-    fun mostrarBotonesFragment() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.frameLayout, BotonesFragment())
-            .commit()
-    }
-
     private fun avanzarRonda() {
+        vocalesAdivinadas = false // Reiniciamos para permitir sumar puntos en la siguiente ronda
+
         // Sumamos el dineroActual del jugador actual a su dineroTotal
         val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual)
         jugadorActual?.let {
@@ -355,6 +336,12 @@ class PanelActivity : AppCompatActivity() {
         }
 
         mostrarBotonesFragment()
+    }
+
+    fun mostrarBotonesFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.frameLayout, BotonesFragment())
+            .commit()
     }
 
     fun actualizarJugador() {
