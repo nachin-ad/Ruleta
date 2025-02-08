@@ -37,7 +37,7 @@ class ReglasActivity : AppCompatActivity() {
             
             2️⃣ La Ruleta:
             
-            La ruleta está dividida en secciones que incluyen premios en efectivo, viajes y casillas especiales como "Quiebra" o "Pierde un Turno".  
+            La ruleta está dividida en secciones que incluyen puntos y casillas especiales como "Quiebra", "Pierde un Turno" o "Todas las vocales".  
             
             3️⃣ Turnos:
             
@@ -58,7 +58,7 @@ class ReglasActivity : AppCompatActivity() {
             
             7️⃣ Ronda Final:
             
-            El concursante con más puntos avanza a la **gran final**, donde tendrá la oportunidad de ganar el premio mayor.  
+            El concursante con más puntos avanza a la gran final, donde tendrá la oportunidad de ganar el premio mayor.  
             
             ¡Buena suerte y a girar la ruleta!
         """.trimIndent()

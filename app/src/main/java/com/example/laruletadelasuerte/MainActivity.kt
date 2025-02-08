@@ -1,5 +1,6 @@
 package com.example.laruletadelasuerte
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -39,11 +41,13 @@ class MainActivity : AppCompatActivity() {
         }
         btnHistorial.setOnClickListener{
             if (historial.isHistorialVacio()){
-                AlertDialog.Builder(this)
+                val alertDialog1 = AlertDialog.Builder(this)
                     .setTitle("Historial vacío")
                     .setMessage("Todavía no tienes partidas guardadas en el historial. ¡Juega algunas partidas primero!")
                     .setPositiveButton("OK"){dialog, _-> dialog.dismiss() }
-                    .show()
+                    .create()
+                alertDialog1.show()
+                alertDialog1.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.azul_oscuro))
             }else{
                 val intent = Intent(this, HistorialActivity::class.java)
                 startActivity(intent)
@@ -54,10 +58,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
     private fun mostrarDialogo() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("¿Queréis leer las reglas antes de jugar?")
-        builder.setMessage("Puede que sea necesario leer las reglas antes de comenzar para entender mejor el juego.")
+        builder.setMessage("Puede que sea necesario conocer las reglas antes de comenzar para entender mejor el juego.")
         builder.setPositiveButton("Sí") { _, _ ->
             setYaLeidoLasReglas(true)
             val intent = Intent(this, ReglasActivity::class.java)
@@ -68,17 +73,26 @@ class MainActivity : AppCompatActivity() {
             startActivity(intentPanel)
         }
         builder.setCancelable(false)
+
         val dialog = builder.create()
         dialog.show()
+
+        // Cambiar el color de los botones a azul oscuro
+        val colorAzulOscuro = ContextCompat.getColor(this, R.color.azul_oscuro)
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(colorAzulOscuro)
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(colorAzulOscuro)
     }
+
     private fun yaLeidoReglas(): Boolean{
         return sharedPreferences.getBoolean("haLeidoReglas", false)
     }
+
     private fun reiniciarPreferencia(){
         val editor = sharedPreferences.edit()
         editor.putBoolean("haLeidoReglas",false)
         editor.apply()
     }
+
     private fun setYaLeidoLasReglas(leido: Boolean){
         val editor = sharedPreferences.edit()
         editor.putBoolean("haLeidoReglas", leido)

@@ -36,15 +36,15 @@ class FrasesPanel {
     )
 
     val frasesPanelFinal = listOf(
-        "A BUEN HAMBRE NO HAY MAL PAN" to "Refrán español",
-        "MAS VALE TARDE QUE NUNCA" to "Refrán español",
-        "A MAL TIEMPO BUENA CARA" to "Refrán español",
-        "CREA FAMA Y ECHATE A DORMIR" to "Refrán español",
-        "LA ALHAMBRA Y GRANADA" to "Monumento y ciudad",
-        "LA CELESTINA Y FERNANDO DE ROJAS" to "Libro y autor",
-        "DON JUAN TENORIO Y JOSE ZORRILLA" to "Libro y autor",
-        "BRILLANTE LUMINOSO Y RESPLANDECIENTE" to "Tres sinónimos",
-        "HERMOSO BELLO Y PRECIOSO" to "Tres sinónimos",
-        "LA SAGRADA FAMILIA Y BARCELONA" to "Monumento y ciudad"
+        "    A BUEN        HAMBRE         NO HAY       MAL PAN   " to "Refrán español",
+        "   MAS VALE        TARDE      QUE NUNCA                 " to "Refrán español",
+        "     A MAL        TIEMPO         BUENA         CARA     " to "Refrán español",
+        "  CREA FAMA     Y ECHATE        A DORMIR                " to "Refrán español",
+        "               LA ALHAMBRA    Y GRANADA                 " to "Monumento y ciudad",
+        " LA CELESTINA  Y FERNANDO      DE ROJAS                 " to "Libro y autor",
+        "   DON JUAN     TENORIO       Y JOSE        ZORRILLA    " to "Libro y autor",
+        "  BRILLANTE    LUMINOSO Y    RELUCIENTE                 " to "Tres sinónimos",
+        "   HERMOSO       BELLO Y      PRECIOSO                  " to "Tres sinónimos",
+        "  LA SAGRADA    FAMILIA Y     BARCELONA                 " to "Monumento y ciudad"
     )
 }

@@ -17,10 +17,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class PanelFinalActivity : AppCompatActivity() {
 
-    private lateinit var frase: String
+    lateinit var frase: String
     private lateinit var panel: GridLayout
     private lateinit var letrasVisibles: MutableList<Boolean>
     private lateinit var viewModel: PanelViewModel
@@ -39,6 +42,7 @@ class PanelFinalActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[PanelViewModel::class.java]
         val jugadores = intent.getParcelableArrayListExtra<Jugador>("jugadores")
+        viewModel.jugadores = jugadores
         viewModel.ronda = 5
 
         if (!jugadores.isNullOrEmpty()) {
@@ -206,7 +210,10 @@ class PanelFinalActivity : AppCompatActivity() {
         AlertDialog.Builder(this) // Ahora usamos "this" porque estamos en una Activity
             .setTitle("¡Tiempo agotado! ⏳")
             .setMessage("No lograste resolver la frase a tiempo. ¡Mejor suerte la próxima vez!")
-            .setPositiveButton("Aceptar") { _, _ -> finish() } // Cierra la Activity
+            .setPositiveButton("Aceptar") { _, _ -> // Crear intent para ir a MainActivity
+                val intent = Intent(this, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent) }
             .setCancelable(false)
             .show()
     }
@@ -244,5 +251,23 @@ class PanelFinalActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.frameLayout, ResolverFragment())
             .commit()
+    }
+
+    private fun guardarPartida(){
+        //Guardar el jugador que gane en la base de datos
+        val dbHistorial = Historial(this)
+        val fechaActual = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+
+        dbHistorial.guardarPartida(
+        viewModel.jugadores?.get(0)?.nombre ?: "",
+        viewModel.jugadores?.get(0)?.dineroTotal ?: 0,
+        viewModel.jugadores?.get(1)?.nombre ?: "",
+        viewModel.jugadores?.get(1)?.dineroTotal ?: 0,
+        viewModel.jugadores?.get(2)?.nombre ?: "",
+        viewModel.jugadores?.get(2)?.dineroTotal ?: 0,
+        ganador = jugadorFinal.nombre,
+        fecha = fechaActual
+    )
+
     }
 }

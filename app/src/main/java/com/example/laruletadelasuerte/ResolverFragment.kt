@@ -1,6 +1,7 @@
 package com.example.laruletadelasuerte
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -80,7 +81,7 @@ class ResolverFragment : Fragment() {
         val respuestaUsuario = editTextRespuesta.text.toString().replace(" ", "")
 
         // Obtener la frase correcta desde la actividad
-        val fraseCorrecta = (activity as? PanelActivity)?.frase?.replace(" ", "") ?: ""
+        val fraseCorrecta = (activity as? PanelFinalActivity)?.frase?.replace(" ", "") ?: ""
 
         if (respuestaUsuario.equals(fraseCorrecta, ignoreCase = true)) {
             sonidoGanar.start()
@@ -95,11 +96,19 @@ class ResolverFragment : Fragment() {
         }
     }
 
-    fun mostrarDialogoVictoria() {
+    private fun mostrarDialogoVictoria() {
         AlertDialog.Builder(requireContext())
             .setTitle("¡Felicidades! 🎉")
             .setMessage("Has resuelto la frase. ¡Eres un ganador!")
-            .setPositiveButton("Aceptar") { _, _ -> (activity as? PanelFinalActivity)?.finish() }
+            .setPositiveButton("Aceptar") { _, _ ->
+                // Crear intent para ir a MainActivity
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+
+                // Cerrar la actividad actual
+                (activity as? PanelFinalActivity)?.finish()
+            }
             .setCancelable(false)
             .show()
     }
