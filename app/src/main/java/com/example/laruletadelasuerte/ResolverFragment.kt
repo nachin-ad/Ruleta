@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 
@@ -101,7 +102,7 @@ class ResolverFragment : Fragment() {
         val premios = listOf(1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000)
         val premioAleatorio = premios.random()
         (activity as? PanelFinalActivity)?.sumarPremio(premioAleatorio)
-        AlertDialog.Builder(requireContext())
+        val dialogVictoria = AlertDialog.Builder(requireContext())
             .setTitle("¡Felicidades! 🎉")
             .setMessage("Has resuelto la frase. ¡Eres el ganador!\n¡El premio detrás de ${viewModel.cantidadRuleta} es $premioAleatorio puntos!")
             .setPositiveButton("Aceptar") { _, _ ->
@@ -116,7 +117,13 @@ class ResolverFragment : Fragment() {
                 (activity as? PanelFinalActivity)?.finish()
             }
             .setCancelable(false)
-            .show()
+            .create()
+
+        dialogVictoria.setOnShowListener {
+            dialogVictoria.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(requireContext(), R.color.azul_oscuro))
+        }
+
+        dialogVictoria.show() // Finalmente mostramos el diálogo
     }
 
 }

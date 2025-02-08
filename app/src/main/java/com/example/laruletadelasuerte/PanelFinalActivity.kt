@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -203,17 +204,24 @@ class PanelFinalActivity : AppCompatActivity() {
 
     private fun mostrarDialogoDerrota() {
         guardarPartida()
-        AlertDialog.Builder(this) // Ahora usamos "this" porque estamos en una Activity
+        val dialogDerrota = AlertDialog.Builder(this) // "this" porque estamos en una Activity
             .setTitle("¡Tiempo agotado! ⏳")
             .setMessage("No lograste resolver la frase a tiempo. ¡Mejor suerte la próxima vez!")
-            .setPositiveButton("Aceptar") { _, _ -> // Crear intent para ir a PantallaFinal
+            .setPositiveButton("Aceptar") { _, _ ->
+                // Crear intent para ir a PantallaFinal
                 val intent = Intent(this, PantallaFinalActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
                 finish()
             }
             .setCancelable(false)
-            .show()
+            .create()
+
+        dialogDerrota.setOnShowListener {
+            dialogDerrota.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.azul_oscuro))
+        }
+
+        dialogDerrota.show()
     }
 
     fun revelarFraseCompleta() {
