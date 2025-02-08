@@ -88,4 +88,17 @@ class Historial(context: Context) : SQLiteOpenHelper(context, NOMBRE_BASEDEDATOS
         db.close()
         return partidas
     }
+    fun isHistorialVacio(): Boolean{
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT COUNT(*) FROM $NOMBRE_TABLA", null)
+        var count = 0
+
+        if (cursor.moveToFirst()){
+            count = cursor.getInt(0)
+        }
+        cursor.close()
+        db.close()
+
+        return count == 0
+    }
 }

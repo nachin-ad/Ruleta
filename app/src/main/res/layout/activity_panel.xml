@@ -37,7 +37,7 @@
                     android:id="@+id/nombreJugador1"
                     android:layout_width="90dp"
                     android:layout_height="match_parent"
-                    android:text="Daniel"
+                    android:text=""
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:fontFamily="monospace"
@@ -53,17 +53,19 @@
                     android:id="@+id/dineroTotalJugador1"
                     android:layout_width="90dp"
                     android:layout_height="match_parent"
-                    android:background="#FFFDF6FF"
+                    android:background="@drawable/borde_verde"
                     android:text="0"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="24sp" />
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp" />
                 <TextView
                     android:id="@+id/dineroActualJugador1"
                     android:layout_width="90dp"
                     android:layout_height="match_parent"
-                    android:background="#FFFDF6FF"
+                    android:background="@drawable/borde_ronda"
                     android:text="0"
                     android:textAlignment="center"
                     android:textColor="@color/black"
@@ -81,7 +83,7 @@
                     android:id="@+id/nombreJugador2"
                     android:layout_width="90dp"
                     android:layout_height="match_parent"
-                    android:text="Daniel"
+                    android:text=""
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:fontFamily="monospace"
@@ -97,17 +99,19 @@
                     android:id="@+id/dineroTotalJugador2"
                     android:layout_width="90dp"
                     android:layout_height="match_parent"
-                    android:background="#FFFDF6FF"
+                    android:background="@drawable/borde_rojo"
                     android:text="0"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="24sp" />
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp" />
                 <TextView
                     android:id="@+id/dineroActualJugador2"
                     android:layout_width="90dp"
                     android:layout_height="match_parent"
-                    android:background="#FFFDF6FF"
+                    android:background="@drawable/borde_ronda"
                     android:text="0"
                     android:textAlignment="center"
                     android:textColor="@color/black"
@@ -124,7 +128,7 @@
                     android:id="@+id/nombreJugador3"
                     android:layout_width="90dp"
                     android:layout_height="match_parent"
-                    android:text="Daniel"
+                    android:text=""
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:fontFamily="monospace"
@@ -140,17 +144,19 @@
                     android:id="@+id/dineroTotalJugador3"
                     android:layout_width="90dp"
                     android:layout_height="match_parent"
-                    android:background="#FDF6FF"
+                    android:background="@drawable/borde_azul"
                     android:text="0"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="24sp" />
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp" />
                 <TextView
                     android:id="@+id/dineroActualJugador3"
                     android:layout_width="90dp"
                     android:layout_height="match_parent"
-                    android:background="#FFFDF6FF"
+                    android:background="@drawable/borde_ronda"
                     android:text="0"
                     android:textAlignment="center"
                     android:textColor="@color/black"

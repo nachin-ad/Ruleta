@@ -3,6 +3,8 @@ package com.example.laruletadelasuerte
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -29,7 +31,18 @@ class PersonajeAdapter(
         fun bind(imagenResId: Int) {
             imagenPersonaje.setImageResource(imagenResId)
             itemView.setOnClickListener {
-                onItemClick(imagenResId)  // Llamamos al callback cuando se selecciona el personaje
+                val animAmplio = AnimationUtils.loadAnimation(itemView.context, R.anim.animacion_personaje)
+                animAmplio.setAnimationListener(object: Animation.AnimationListener{
+                    override fun onAnimationStart(animation: Animation?){}
+
+                    override fun onAnimationEnd(animation: Animation?){
+                        onItemClick(imagenResId)
+                    }
+
+                    override fun onAnimationRepeat(animation: Animation?) {}
+
+                })
+                imagenPersonaje.startAnimation(animAmplio)
             }
         }
     }
