@@ -54,6 +54,7 @@ class ResolverFragment : Fragment() {
 
     private fun comprobarRespuesta() {
         val jugadorActual = viewModel.jugadores?.get(viewModel.jugadorActual) ?: return
+        val panelActivity = activity as? PanelActivity ?: return
         val respuestaUsuario = editTextRespuesta.text.toString().replace(" ", "")
 
         // Obtener la frase correcta desde la actividad
@@ -68,7 +69,7 @@ class ResolverFragment : Fragment() {
             }
 
             // Revelar la frase completa en el panel
-            (activity as? PanelActivity)?.revelarFraseCompleta()
+            panelActivity.revelarFraseCompleta()
 
         } else {
             Toast.makeText(requireContext(), "¡Respuesta incorrecta!", Toast.LENGTH_SHORT).show()
