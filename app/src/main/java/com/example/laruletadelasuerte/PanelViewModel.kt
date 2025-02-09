@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class PanelViewModel : ViewModel() {
+    //inicializacion de variables
     var jugadores: List<Jugador>? = null
     var cantidadRuleta: String = ""
     var jugadorActual: Int = 0
@@ -15,6 +16,7 @@ class PanelViewModel : ViewModel() {
     var bote: Int = 0
     val rondaLiveData = MutableLiveData<Int>()
 
+    //Método para desactivar letras
     fun agregarLetraDesactivada(letra: Char) {
         val letrasActuales = _letrasDesactivadasLiveData.value ?: mutableSetOf()
         letrasActuales.add(letra)

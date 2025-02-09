@@ -6,29 +6,32 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class ReglasActivity : AppCompatActivity() {
 
+    // SharedPreferences para almacenar si el usuario ha leído las reglas
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge() // Habilita el diseño de borde a borde en dispositivos compatibles
         setContentView(R.layout.activity_reglas)
 
+        // Inicializa SharedPreferences con el nombre "MyPrefs"
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
 
+        // Referencias a los elementos de la interfaz
         val tvTitulo: TextView = findViewById(R.id.tvTitulo)
         val tvReglas: TextView = findViewById(R.id.tvReglas)
         val btnVolver: Button = findViewById(R.id.btnVolver)
 
+        // Texto del título con formato
         val textoTitulo = """
             Normas de la Ruleta de
             📜            la Suerte             🎡
-            """.trimIndent()
+        """.trimIndent()
 
+        // Texto con las reglas del juego
         val textoReglas = """
             
             1️⃣ Participantes:
@@ -63,22 +66,25 @@ class ReglasActivity : AppCompatActivity() {
             ¡Buena suerte y a girar la ruleta!
         """.trimIndent()
 
+        // Asigna los textos a los elementos de la interfaz
         tvTitulo.text = textoTitulo
         tvReglas.text = textoReglas
 
-        btnVolver.setOnClickListener{
+        // Configura el botón para cerrar la actividad y volver atrás
+        btnVolver.setOnClickListener {
             finish()
         }
-
     }
 
-    override fun onPause(){
+    override fun onPause() {
         super.onPause()
-        setYaLeidoLasReglas(true)
+        setYaLeidoLasReglas(true) // Marca que el usuario ha leído las reglas
     }
-    private fun setYaLeidoLasReglas(leido: Boolean){
-     val editor = sharedPreferences.edit()
-     editor.putBoolean("haLeidoReglas",leido)
-     editor.apply()
+
+    // Guarda en SharedPreferences si el usuario ya ha leído las reglas
+    private fun setYaLeidoLasReglas(leido: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("haLeidoReglas", leido)
+        editor.apply()
     }
 }

@@ -1,5 +1,5 @@
 package com.example.laruletadelasuerte
-
+//clase para guardar partidas
 data class Partida(
     val id: Int,
     val nombreJugador1: String,
