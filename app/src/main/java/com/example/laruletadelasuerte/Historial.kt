@@ -4,8 +4,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-
+//clase que controla la base de datos
 class Historial(context: Context) : SQLiteOpenHelper(context, NOMBRE_BASEDEDATOS, null, VERSION_BASEDEDATOS) {
+    //asignamos todas las variables necesarias para el manejo de los datos
     companion object {
         private const val NOMBRE_BASEDEDATOS = "historial.db"
         private const val VERSION_BASEDEDATOS = 1
@@ -21,7 +22,7 @@ class Historial(context: Context) : SQLiteOpenHelper(context, NOMBRE_BASEDEDATOS
         const val GANADOR = "ganador"
         const val FECHA = "fecha"
     }
-
+    //creacion de la tabla donde se guardará la información
     override fun onCreate(db: SQLiteDatabase) {
         val createTableQuery = """
             CREATE TABLE $NOMBRE_TABLA (
@@ -38,12 +39,12 @@ class Historial(context: Context) : SQLiteOpenHelper(context, NOMBRE_BASEDEDATOS
         """.trimIndent()
         db.execSQL(createTableQuery)
     }
-
+    //funcion para actualizar la tabla
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $NOMBRE_TABLA")
         onCreate(db)
     }
-
+    //funcion para guardar la partida
     fun guardarPartida(
         nombreJugador1: String, dineroJugador1: Int,
         nombreJugador2: String, dineroJugador2: Int,
@@ -64,7 +65,7 @@ class Historial(context: Context) : SQLiteOpenHelper(context, NOMBRE_BASEDEDATOS
         db.insert(NOMBRE_TABLA, null, values)
         db.close()
     }
-
+//funcion para obtener los datos que se mostrarán en el historial
     fun obtenerHistorial(): List<Partida> {
         val partidas = mutableListOf<Partida>()
         val db = this.readableDatabase
@@ -88,6 +89,7 @@ class Historial(context: Context) : SQLiteOpenHelper(context, NOMBRE_BASEDEDATOS
         db.close()
         return partidas
     }
+    //funcion que controla si el historial contiene datos
     fun isHistorialVacio(): Boolean{
         val db = this.readableDatabase
         val cursor = db.rawQuery("SELECT COUNT(*) FROM $NOMBRE_TABLA", null)
@@ -101,6 +103,7 @@ class Historial(context: Context) : SQLiteOpenHelper(context, NOMBRE_BASEDEDATOS
 
         return count == 0
     }
+    // funcion para obtener los datos de la ultima partida jugada
     fun obtenerUltimaPartida(): Partida? {
         val db = this.readableDatabase
         val cursor = db.rawQuery("SELECT * FROM $NOMBRE_TABLA ORDER BY $FECHA DESC LIMIT 1", null)

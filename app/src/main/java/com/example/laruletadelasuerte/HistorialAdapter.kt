@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 
 class HistorialAdapter(private val context: Context, private val partidas: List<Partida>) :
     RecyclerView.Adapter<HistorialAdapter.ViewHolder>() {
-
+//variable para controlar que el historial se muestre de lo mas reciente a lo mas antiguo
     private val partidasInvertidas = partidas.reversed()
-
+    //clase que inicializa todos los textview
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val txtFecha: TextView = view.findViewById(R.id.txtFecha)
         val txtJugador1: TextView = view.findViewById(R.id.txtJugador1)
@@ -22,12 +22,12 @@ class HistorialAdapter(private val context: Context, private val partidas: List<
         val txtDinero3 : TextView = view.findViewById(R.id.txtDinero3)
         val txtGanador: TextView = view.findViewById(R.id.txtGanador)
     }
-
+    // Inflamos el diseño para este layaout
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_historial, parent, false)
         return ViewHolder(view)
     }
-
+    //asignamos cada valor a las variables
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val partida = partidasInvertidas[position]
         holder.txtFecha.text = partida.fecha
@@ -46,10 +46,10 @@ class HistorialAdapter(private val context: Context, private val partidas: List<
 
         holder.txtGanador.text = "🏆 ${partida.ganador}"
     }
-
+//funcion que formatea la visualizacion del dinero
     fun formatMoney(dinero: Int): String {
         return "${"%,d".format(dinero)}€"
     }
-
+    //funcion que cuenta cuantas partidas hay
     override fun getItemCount(): Int = partidas.size
 }

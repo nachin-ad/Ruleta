@@ -9,18 +9,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class HistorialActivity : AppCompatActivity() {
-
+        //clase que maneja el diseño del historial
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             enableEdgeToEdge()
             setContentView(R.layout.activity_historial)
-
+            //inicializamos las variables de la vista
             val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewHistorial)
             val dbHelper = Historial(this)
             val historial = dbHelper.obtenerHistorial()
 
+            //inicializamos y asignamos la funcion finish al boton volver
             val btnVolver = findViewById<Button>(R.id.btnVolver)
-
             btnVolver.setOnClickListener{
                 finish()
             }
